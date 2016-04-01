@@ -19,6 +19,9 @@
 @property (strong, nonatomic, readwrite) UILabel *updatedDate;
 @property (strong, nonatomic, readwrite) NSMutableArray *links;
 @property (strong, nonatomic, readwrite) UITextView *textView;
+@property (strong, nonatomic, readwrite) UIScrollView *scrollView;
+@property (strong, nonatomic, readwrite) UIView *centerView;
+
 
 //@property (strong, nonatomic, readwrite) MPMoviePlayerController *moviePlayerController;
 //@property (strong, nonatomic, readwrite) UIView *movieView;
