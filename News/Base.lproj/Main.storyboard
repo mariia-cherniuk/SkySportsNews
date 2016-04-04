@@ -58,21 +58,21 @@
                                     <rect key="frame" x="177" y="411" width="35" height="30"/>
                                 </variation>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review: In ‘Zootopia,’ an Intrepid Bunny Chases Her Dreams" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fYA-MV-2vj">
-                                <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="115" y="82" width="265" height="68"/>
-                                </variation>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016-03-04" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QS5-rW-giY">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" red="0.50588235290000005" green="0.49803921569999998" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="115" y="147" width="258" height="10"/>
+                                    <rect key="frame" x="20" y="163" width="258" height="10"/>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review: In ‘Zootopia,’ an Intrepid Bunny Chases Her Dreams" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fYA-MV-2vj">
+                                <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="115" y="86" width="265" height="68"/>
                                 </variation>
                             </label>
                         </subviews>
@@ -84,8 +84,8 @@
                                 <exclude reference="qvj-5u-vyU"/>
                                 <exclude reference="vR3-uU-O8w"/>
                                 <exclude reference="xZp-2e-Im2"/>
-                                <exclude reference="fYA-MV-2vj"/>
                                 <exclude reference="QS5-rW-giY"/>
+                                <exclude reference="fYA-MV-2vj"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -95,15 +95,15 @@
                                 <include reference="qvj-5u-vyU"/>
                                 <include reference="vR3-uU-O8w"/>
                                 <include reference="xZp-2e-Im2"/>
-                                <include reference="fYA-MV-2vj"/>
                                 <include reference="QS5-rW-giY"/>
+                                <include reference="fYA-MV-2vj"/>
                             </mask>
                         </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="289.5" y="324"/>
+            <point key="canvasLocation" x="33" y="332"/>
         </scene>
     </scenes>
     <resources>

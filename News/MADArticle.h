@@ -14,9 +14,9 @@
 
 @property (copy, nonatomic, readwrite) NSString *summaryShort;
 @property (copy, nonatomic, readwrite) NSString *headline;
+@property (copy, nonatomic, readwrite) NSString *author;
 @property (strong, nonatomic, readwrite) NSDictionary *multimedia;
 @property (strong, nonatomic, readwrite) NSDictionary *link;
-@property (strong, nonatomic, readwrite) NSArray *relatedUrls;
 @property (copy, nonatomic, readwrite) NSString *publicationDate;
 @property (copy, nonatomic, readwrite) NSString *updatedDate;
 @property (strong, nonatomic, readwrite) UIImage *image;

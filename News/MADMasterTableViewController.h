@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 @class MADDetailViewController;
 
-@interface MADMasterTableViewController : UITableViewController
+@interface MADMasterTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic, readwrite) MADDetailViewController *detailVC;
 @property (strong, nonatomic, readwrite) UINavigationController *detailNC;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 
 @end

@@ -17,6 +17,7 @@
 		84E2CDC21C9D609200E7B049 /* MADDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDC11C9D609200E7B049 /* MADDownloader.m */; };
 		84E2CDC51C9D942600E7B049 /* MADMasterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDC41C9D942600E7B049 /* MADMasterTableViewController.m */; };
 		84E2CDC81C9D944000E7B049 /* MADDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDC71C9D944000E7B049 /* MADDetailViewController.m */; };
+		84E9A07A1CB270B500EFA94C /* MADCustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9A0791CB270B500EFA94C /* MADCustomTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		84E2CDC41C9D942600E7B049 /* MADMasterTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADMasterTableViewController.m; sourceTree = "<group>"; };
 		84E2CDC61C9D944000E7B049 /* MADDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADDetailViewController.h; sourceTree = "<group>"; };
 		84E2CDC71C9D944000E7B049 /* MADDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADDetailViewController.m; sourceTree = "<group>"; };
+		84E9A0781CB270B500EFA94C /* MADCustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADCustomTableViewCell.h; sourceTree = "<group>"; };
+		84E9A0791CB270B500EFA94C /* MADCustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADCustomTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,8 @@
 				84E2CDA71C9C170900E7B049 /* AppDelegate.m */,
 				84E2CDC31C9D942600E7B049 /* MADMasterTableViewController.h */,
 				84E2CDC41C9D942600E7B049 /* MADMasterTableViewController.m */,
+				84E9A0781CB270B500EFA94C /* MADCustomTableViewCell.h */,
+				84E9A0791CB270B500EFA94C /* MADCustomTableViewCell.m */,
 				84E2CDC61C9D944000E7B049 /* MADDetailViewController.h */,
 				84E2CDC71C9D944000E7B049 /* MADDetailViewController.m */,
 				84E2CDA91C9C170900E7B049 /* ViewController.h */,
@@ -173,6 +178,7 @@
 				84E2CDC81C9D944000E7B049 /* MADDetailViewController.m in Sources */,
 				84E2CDC21C9D609200E7B049 /* MADDownloader.m in Sources */,
 				84E2CDAB1C9C170900E7B049 /* ViewController.m in Sources */,
+				84E9A07A1CB270B500EFA94C /* MADCustomTableViewCell.m in Sources */,
 				84E2CDBC1C9C265600E7B049 /* MADArticle.m in Sources */,
 				84E2CDC51C9D942600E7B049 /* MADMasterTableViewController.m in Sources */,
 				84E2CDA81C9C170900E7B049 /* AppDelegate.m in Sources */,

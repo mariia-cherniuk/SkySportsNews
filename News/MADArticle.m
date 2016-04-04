@@ -16,11 +16,11 @@
     if (self) {
         _summaryShort = article[@"summary_short"];
         _headline = article[@"headline"];
-        _multimedia = [article[@"multimedia"] objectForKey:@"resource"];
+        _author = article[@"byline"];
+        _multimedia = article[@"multimedia"];
         _link = article[@"link"];
         _publicationDate = article[@"publication_date"];
         _updatedDate = article[@"date_updated"];
-        _relatedUrls = article[@"related_urls"];
         _image = nil;
     }
     
