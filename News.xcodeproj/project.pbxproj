@@ -13,11 +13,14 @@
 		84E2CDAE1C9C170900E7B049 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84E2CDAC1C9C170900E7B049 /* Main.storyboard */; };
 		84E2CDB01C9C170900E7B049 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84E2CDAF1C9C170900E7B049 /* Assets.xcassets */; };
 		84E2CDB31C9C170900E7B049 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84E2CDB11C9C170900E7B049 /* LaunchScreen.storyboard */; };
-		84E2CDBC1C9C265600E7B049 /* MADArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDBB1C9C265600E7B049 /* MADArticle.m */; };
 		84E2CDC21C9D609200E7B049 /* MADDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDC11C9D609200E7B049 /* MADDownloader.m */; };
 		84E2CDC51C9D942600E7B049 /* MADMasterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDC41C9D942600E7B049 /* MADMasterTableViewController.m */; };
 		84E2CDC81C9D944000E7B049 /* MADDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDC71C9D944000E7B049 /* MADDetailViewController.m */; };
 		84E9A07A1CB270B500EFA94C /* MADCustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9A0791CB270B500EFA94C /* MADCustomTableViewCell.m */; };
+		84E9A07D1CB2BB7900EFA94C /* News.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E9A07B1CB2BB7900EFA94C /* News.xcdatamodeld */; };
+		84E9A0801CB532B900EFA94C /* MADCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9A07F1CB532B900EFA94C /* MADCoreDataStack.m */; };
+		84E9A0851CB54AFD00EFA94C /* MADArticle+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9A0821CB54AFD00EFA94C /* MADArticle+CoreDataProperties.m */; };
+		84E9A0861CB54AFD00EFA94C /* MADArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9A0841CB54AFD00EFA94C /* MADArticle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +34,6 @@
 		84E2CDAF1C9C170900E7B049 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84E2CDB21C9C170900E7B049 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84E2CDB41C9C170900E7B049 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84E2CDBA1C9C265600E7B049 /* MADArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADArticle.h; sourceTree = "<group>"; };
-		84E2CDBB1C9C265600E7B049 /* MADArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADArticle.m; sourceTree = "<group>"; };
 		84E2CDC01C9D609200E7B049 /* MADDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADDownloader.h; sourceTree = "<group>"; };
 		84E2CDC11C9D609200E7B049 /* MADDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADDownloader.m; sourceTree = "<group>"; };
 		84E2CDC31C9D942600E7B049 /* MADMasterTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADMasterTableViewController.h; sourceTree = "<group>"; };
@@ -41,6 +42,13 @@
 		84E2CDC71C9D944000E7B049 /* MADDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADDetailViewController.m; sourceTree = "<group>"; };
 		84E9A0781CB270B500EFA94C /* MADCustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADCustomTableViewCell.h; sourceTree = "<group>"; };
 		84E9A0791CB270B500EFA94C /* MADCustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADCustomTableViewCell.m; sourceTree = "<group>"; };
+		84E9A07C1CB2BB7900EFA94C /* News.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = News.xcdatamodel; sourceTree = "<group>"; };
+		84E9A07E1CB532B900EFA94C /* MADCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADCoreDataStack.h; sourceTree = "<group>"; };
+		84E9A07F1CB532B900EFA94C /* MADCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADCoreDataStack.m; sourceTree = "<group>"; };
+		84E9A0811CB54AFD00EFA94C /* MADArticle+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MADArticle+CoreDataProperties.h"; sourceTree = "<group>"; };
+		84E9A0821CB54AFD00EFA94C /* MADArticle+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MADArticle+CoreDataProperties.m"; sourceTree = "<group>"; };
+		84E9A0831CB54AFD00EFA94C /* MADArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADArticle.h; sourceTree = "<group>"; };
+		84E9A0841CB54AFD00EFA94C /* MADArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADArticle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +65,10 @@
 		84E2CD971C9C170800E7B049 = {
 			isa = PBXGroup;
 			children = (
+				84E9A0811CB54AFD00EFA94C /* MADArticle+CoreDataProperties.h */,
+				84E9A0821CB54AFD00EFA94C /* MADArticle+CoreDataProperties.m */,
+				84E9A0831CB54AFD00EFA94C /* MADArticle.h */,
+				84E9A0841CB54AFD00EFA94C /* MADArticle.m */,
 				84E2CDA21C9C170800E7B049 /* News */,
 				84E2CDA11C9C170800E7B049 /* Products */,
 			);
@@ -73,10 +85,10 @@
 		84E2CDA21C9C170800E7B049 /* News */ = {
 			isa = PBXGroup;
 			children = (
-				84E2CDBA1C9C265600E7B049 /* MADArticle.h */,
-				84E2CDBB1C9C265600E7B049 /* MADArticle.m */,
 				84E2CDA61C9C170800E7B049 /* AppDelegate.h */,
 				84E2CDA71C9C170900E7B049 /* AppDelegate.m */,
+				84E9A07E1CB532B900EFA94C /* MADCoreDataStack.h */,
+				84E9A07F1CB532B900EFA94C /* MADCoreDataStack.m */,
 				84E2CDC31C9D942600E7B049 /* MADMasterTableViewController.h */,
 				84E2CDC41C9D942600E7B049 /* MADMasterTableViewController.m */,
 				84E9A0781CB270B500EFA94C /* MADCustomTableViewCell.h */,
@@ -90,6 +102,7 @@
 				84E2CDAC1C9C170900E7B049 /* Main.storyboard */,
 				84E2CDAF1C9C170900E7B049 /* Assets.xcassets */,
 				84E2CDB11C9C170900E7B049 /* LaunchScreen.storyboard */,
+				84E9A07B1CB2BB7900EFA94C /* News.xcdatamodeld */,
 				84E2CDB41C9C170900E7B049 /* Info.plist */,
 				84E2CDA31C9C170800E7B049 /* Supporting Files */,
 			);
@@ -178,10 +191,13 @@
 				84E2CDC81C9D944000E7B049 /* MADDetailViewController.m in Sources */,
 				84E2CDC21C9D609200E7B049 /* MADDownloader.m in Sources */,
 				84E2CDAB1C9C170900E7B049 /* ViewController.m in Sources */,
+				84E9A0851CB54AFD00EFA94C /* MADArticle+CoreDataProperties.m in Sources */,
 				84E9A07A1CB270B500EFA94C /* MADCustomTableViewCell.m in Sources */,
-				84E2CDBC1C9C265600E7B049 /* MADArticle.m in Sources */,
+				84E9A07D1CB2BB7900EFA94C /* News.xcdatamodeld in Sources */,
 				84E2CDC51C9D942600E7B049 /* MADMasterTableViewController.m in Sources */,
 				84E2CDA81C9C170900E7B049 /* AppDelegate.m in Sources */,
+				84E9A0861CB54AFD00EFA94C /* MADArticle.m in Sources */,
+				84E9A0801CB532B900EFA94C /* MADCoreDataStack.m in Sources */,
 				84E2CDA51C9C170800E7B049 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,6 +315,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.marydort.News;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -313,6 +330,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.marydort.News;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -338,6 +356,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		84E9A07B1CB2BB7900EFA94C /* News.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				84E9A07C1CB2BB7900EFA94C /* News.xcdatamodel */,
+			);
+			currentVersion = 84E9A07C1CB2BB7900EFA94C /* News.xcdatamodel */;
+			path = News.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 84E2CD981C9C170800E7B049 /* Project object */;
 }

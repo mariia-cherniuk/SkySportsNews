@@ -8,6 +8,7 @@
 
 #import "MADDownloader.h"
 #import "MADArticle.h"
+#import "MADCoreDataStack.h"
 
 @implementation MADDownloader
 
@@ -20,15 +21,11 @@
                                                                    NSURLResponse *response,
                                                                    NSError *error) {
                                                    if (data) {
-                                                       NSDictionary *articles = [NSJSONSerialization JSONObjectWithData:data
-                                                                   options:NSJSONReadingMutableContainers
-                                                                     error:nil];
-                                                       NSArray *allArticles = [NSArray arrayWithArray:
-                                                                               [self parseArticles:articles]];
-                                                       
+                                                       NSArray *articles = [[MADCoreDataStack sharedCoreDataStack] parseData:data];
+                                        
                                                        dispatch_async(dispatch_get_main_queue(), ^{
                                                            if (completionBlock) {
-                                                               completionBlock(allArticles);
+                                                               completionBlock(articles);
                                                            }
                                                        });
                                                    } else if (error) {
@@ -38,19 +35,19 @@
     
     [dataTask resume];
 }
+//
+//+ (NSArray *)parseArticles:(NSDictionary *)articles {
+//    NSArray *results = articles[@"results"];
+//    NSMutableArray *allArticle = [[NSMutableArray alloc] init];
+//    
+//    for (NSDictionary *article in results) {
+//        [allArticle addObject:[[MADArticle alloc] initWithDictionary:article]];
+//    }
+//    
+//    return allArticle;
+//}
 
-+ (NSArray *)parseArticles:(NSDictionary *)articles {
-    NSArray *results = articles[@"results"];
-    NSMutableArray *allArticle = [[NSMutableArray alloc] init];
-    
-    for (NSDictionary *article in results) {
-        [allArticle addObject:[[MADArticle alloc] initWithDictionary:article]];
-    }
-    
-    return allArticle;
-}
-
-+ (void)loadImageWithURL:(NSURL *)url completionBlock:(void (^)(UIImage *image))completionBlock {
++ (void)loadImageWithURL:(NSURL *)url {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSURLSession *sesion = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [sesion dataTaskWithRequest:request
@@ -59,14 +56,10 @@
                                                                    NSError *error) {
                                                    if (data) {
                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                           UIImage *image = [[UIImage alloc] initWithData:data];
-                                                           completionBlock(image);
+                                                           [[MADCoreDataStack sharedCoreDataStack] saveImage:data];
                                                        });
                                                    } else if (error) {
-                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                           NSLog(@"%@", error);
-                                                           completionBlock(nil);
-                                                       });
+                                                        NSLog(@"%@", error);
                                                    }
                                                }];
     
