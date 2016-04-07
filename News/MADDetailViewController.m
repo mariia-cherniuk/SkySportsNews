@@ -100,36 +100,36 @@
     [_scrollView addSubview:view];
     self.contentView = view;
     [_scrollView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeLeading
-                                                         multiplier:1
-                                                           constant:0]];
+                                                            attribute:NSLayoutAttributeLeading
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:_scrollView
+                                                            attribute:NSLayoutAttributeLeading
+                                                           multiplier:1
+                                                             constant:0]];
     
     [_scrollView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                          attribute:NSLayoutAttributeTrailing
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeTrailing
-                                                         multiplier:1
-                                                           constant:0]];
+                                                            attribute:NSLayoutAttributeTrailing
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:_scrollView
+                                                            attribute:NSLayoutAttributeTrailing
+                                                           multiplier:1
+                                                             constant:0]];
     
     [_scrollView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1
-                                                           constant:0]];
+                                                            attribute:NSLayoutAttributeTop
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:_scrollView
+                                                            attribute:NSLayoutAttributeTop
+                                                           multiplier:1
+                                                             constant:0]];
     
     [_scrollView addConstraint:[NSLayoutConstraint constraintWithItem:view
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1
-                                                           constant:0]];
+                                                            attribute:NSLayoutAttributeBottom
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:_scrollView
+                                                            attribute:NSLayoutAttributeBottom
+                                                           multiplier:1
+                                                             constant:0]];
     
     [_scrollView addConstraint:[NSLayoutConstraint constraintWithItem:view
                                                             attribute:NSLayoutAttributeWidth
@@ -192,20 +192,20 @@
                                                                          constant:10];
     
     NSLayoutConstraint *headlineTop = [NSLayoutConstraint constraintWithItem:_headline
-                                                                       attribute:NSLayoutAttributeTop
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:_image
-                                                                       attribute:NSLayoutAttributeTop
-                                                                      multiplier:1
-                                                                        constant:0];
+                                                                   attribute:NSLayoutAttributeTop
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:_image
+                                                                   attribute:NSLayoutAttributeTop
+                                                                  multiplier:1
+                                                                    constant:0];
     
     NSLayoutConstraint *headlineCenterY = [NSLayoutConstraint constraintWithItem:_headline
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:_image
-                                                                    attribute:NSLayoutAttributeCenterY
-                                                                   multiplier:1
-                                                                     constant:0];
+                                                                       attribute:NSLayoutAttributeCenterY
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:_image
+                                                                       attribute:NSLayoutAttributeCenterY
+                                                                      multiplier:1
+                                                                        constant:0];
     
     [_contentView addConstraints:@[headlineRightSide, headlineLeftSide, headlineTop, headlineCenterY]];
 }
@@ -225,28 +225,28 @@
                                                                       constant:20];
     
     NSLayoutConstraint *imageWidth = [NSLayoutConstraint constraintWithItem:_image
-                                                                      attribute:NSLayoutAttributeWidth
-                                                                      relatedBy:NSLayoutRelationEqual
-                                                                         toItem:nil
-                                                                      attribute:NSLayoutAttributeNotAnAttribute
-                                                                     multiplier:1
-                                                                   constant:140];
-    
-    NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:_image
-                                                                  attribute:NSLayoutAttributeHeight
+                                                                  attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:nil
                                                                   attribute:NSLayoutAttributeNotAnAttribute
                                                                  multiplier:1
-                                                                   constant:100];
+                                                                   constant:140];
+    
+    NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:_image
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:nil
+                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                  multiplier:1
+                                                                    constant:100];
 
     NSLayoutConstraint *imageTop = [NSLayoutConstraint constraintWithItem:_image
-                                                                       attribute:NSLayoutAttributeTop
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:_contentView
-                                                                       attribute:NSLayoutAttributeTop
-                                                                      multiplier:1
-                                                                        constant:20];
+                                                                attribute:NSLayoutAttributeTop
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:_contentView
+                                                                attribute:NSLayoutAttributeTop
+                                                               multiplier:1
+                                                                 constant:20];
     
     [_contentView addConstraints:@[imageLeftSide, imageTop, imageHeight, imageWidth]];
 }
@@ -300,26 +300,26 @@
     [_contentView addSubview:_summaryShort];
     
     NSLayoutConstraint *summaryShortLeftSide = [NSLayoutConstraint constraintWithItem:_summaryShort
-                                                                        attribute:NSLayoutAttributeLeading
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:_contentView
-                                                                        attribute:NSLayoutAttributeLeading
-                                                                       multiplier:1
-                                                                         constant:20];
+                                                                            attribute:NSLayoutAttributeLeading
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:_contentView
+                                                                            attribute:NSLayoutAttributeLeading
+                                                                           multiplier:1
+                                                                             constant:20];
     
     NSLayoutConstraint *summaryShortRightSide = [NSLayoutConstraint constraintWithItem:_summaryShort
-                                                                     attribute:NSLayoutAttributeTrailing
+                                                                             attribute:NSLayoutAttributeTrailing
                                                             relatedBy:NSLayoutRelationLessThanOrEqual
-                                                                        toItem:_contentView
-                                                                     attribute:NSLayoutAttributeTrailing
-                                                                    multiplier:1
-                                                                      constant:-20];
+                                                                                toItem:_contentView
+                                                                             attribute:NSLayoutAttributeTrailing
+                                                                            multiplier:1
+                                                                              constant:-20];
 
     NSLayoutConstraint *summaryShortTop = [NSLayoutConstraint constraintWithItem:_summaryShort
                                                                        attribute:NSLayoutAttributeTop
                                                                        relatedBy:NSLayoutRelationEqual
                                                                           toItem:_updatedDate
-                                                                    attribute:NSLayoutAttributeBaseline
+                                                                       attribute:NSLayoutAttributeBaseline
                                                                       multiplier:1
                                                                         constant:20];
     

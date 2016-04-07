@@ -8,6 +8,7 @@
 
 #import "MADCoreDataStack.h"
 #import <CoreData/CoreData.h>
+#import "MADArticle+CoreDataProperties.h"
 
 @implementation MADCoreDataStack
 
@@ -102,22 +103,29 @@
     }
 }
 
-- (NSArray *)parseData:(NSData *)data {
-    NSDictionary *articlesDict = [NSJSONSerialization JSONObjectWithData:data
-                                                             options:NSJSONReadingMutableContainers
-                                                               error:nil];
-    NSArray *articles = articlesDict[@"results"];
+- (NSDate *)convertPublicationDateFrom:(NSString *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDate *dateFromString = [[NSDate alloc] init];
     
-    [self saveArticles:articles];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    dateFromString = [dateFormatter dateFromString:date];
     
-    return articles;
+    return dateFromString;
+}
+
+- (NSDate *)convertUpdateDateFrom:(NSString *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDate *dateFromString = [[NSDate alloc] init];
+
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    dateFromString = [dateFormatter dateFromString:date];
+    
+    return dateFromString;
 }
 
 - (void)saveArticles:(NSArray *)articles {
     NSManagedObjectContext *context = self.managedObjectContext;
-    
-    // Create a new managed object
-    
+
     for (NSDictionary *article in articles) {
         NSManagedObject *newArticle = [NSEntityDescription insertNewObjectForEntityForName:@"MADArticle" inManagedObjectContext:context];
 
@@ -126,22 +134,106 @@
         [newArticle setValue:article[@"byline"] forKey:@"author"];
         [newArticle setValue:article[@"multimedia"] forKey:@"multimedia"];
         [newArticle setValue:article[@"link"] forKey:@"link"];
-        [newArticle setValue:article[@"publication_date"] forKey:@"publicationDate"];
-        [newArticle setValue:article[@"date_updated"] forKey:@"updatedDate"];
-        [newArticle setValue:nil forKey:@"image"];
+        [newArticle setValue:[self convertPublicationDateFrom:article[@"publication_date"]] forKey:@"publicationDate"];
+        [newArticle setValue:[self convertUpdateDateFrom:article[@"date_updated"]] forKey:@"updatedDate"];
+        [newArticle setValue:article[@"multimedia"][@"src"] forKey:@"image"];
+//        [self dismissViewControllerAnimated:YES completion:nil];
+        NSLog(@"%@", [newArticle valueForKey:@"image"]);
         
         NSError *error = nil;
-        // Save the object to persistent store
         if (![context save:&error]) {
             NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
         }
-//        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
-- (void)saveImage:(NSData *)data {
-    UIImage *image = [[UIImage alloc] initWithData:data];
+//- (NSArray *)uniquenessCheck:(NSArray *)articles {
+//    NSMutableArray *uniqueArticles = [[NSMutableArray alloc] init];
+//    NSArray *respone = [self fetchingRecords];
+//    
+//    if (respone.count == 0) {
+//        [uniqueArticles addObjectsFromArray:articles];
+//    } else {
+//        for (NSInteger i = 0; i < articles.count; i++) {
+//            if ((articles[i][@"date_updated"] != [respone[i] updatedDate]) && ![articles[i][@"headline"] isEqualToString:[respone[i] headline]]) {
+//                [uniqueArticles addObject:articles[i]];
+//            }
+//        }
+//    }
+//
+//    return uniqueArticles;
+//}
+
+//- (NSArray *)fetchingRecords {
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MADArticle" inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//
+//    NSError *error = nil;
+//    NSArray *result = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//
+//    if (error) {
+//        NSLog(@"Unable to execute fetch request.");
+//        NSLog(@"%@, %@", error, error.localizedDescription);
+//    }
+//
+//    return result;
+//}
+
+- (NSArray *)uniquenessCheck:(NSArray *)articles {
+    NSMutableArray *uniqueArticles = [[NSMutableArray alloc] init];
+    NSArray *respone = [self fetchingDistinctValueByPredicate:
+                        [NSPredicate predicateWithFormat:@"updatedDate==max(updatedDate)"]];
+    NSSortDescriptor *desc = [NSSortDescriptor sortDescriptorWithKey:@"date_updated" ascending:YES];
     
+    [articles sortedArrayUsingDescriptors:@[desc]];
+    
+    if (respone.count == 0) {
+        [uniqueArticles addObjectsFromArray:articles];
+    } else {
+        for (NSInteger i = articles.count - 1; i >= 0; i--) {
+            NSDate *date = [self convertUpdateDateFrom:articles[i][@"date_updated"]];
+            
+            if ([date compare:[respone[0] updatedDate]] == NSOrderedDescending) {
+                NSArray *unique = [articles subarrayWithRange:NSMakeRange(0, i)];
+                NSLog(@"%@", unique);
+                
+                [uniqueArticles addObjectsFromArray:unique];
+            }
+        }
+    }
+    
+    return uniqueArticles;
+}
+
+- (NSArray *)fetchingDistinctValueByPredicate:(NSPredicate *)predicate {
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MADArticle"
+                                              inManagedObjectContext:_managedObjectContext];
+    [request setEntity:entity];
+    request.predicate = predicate;
+    request.sortDescriptors = [NSArray array];
+    
+    NSError *error = nil;
+    NSArray *array = [_managedObjectContext executeFetchRequest:request error:&error];
+    
+    return array;
+}
+
+- (void)saveImage:(NSData *)data url:(NSURL *)url {
+    NSString *urlStr = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    UIImage *image = [[UIImage alloc] initWithData:data];
+    NSManagedObjectContext *context = self.managedObjectContext;
+    NSArray *respone = [self fetchingDistinctValueByPredicate:
+                        [NSPredicate predicateWithFormat:@"image==%@", urlStr]];
+    
+    [respone[0] setValue:image forKey:@"image"];
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
 }
 
 @end

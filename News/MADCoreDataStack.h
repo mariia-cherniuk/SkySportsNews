@@ -19,7 +19,8 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-- (NSArray *)parseData:(NSData *)data;
-- (void)saveImage:(NSData *)data;
+- (void)saveArticles:(NSArray *)articles;
+- (void)saveImage:(NSData *)data url:(NSURL *)url;
+- (NSArray *)uniquenessCheck:(NSArray *)articles;
 
 @end

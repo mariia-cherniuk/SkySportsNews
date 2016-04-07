@@ -16,8 +16,8 @@
 @property (copy, nonatomic, readwrite) NSString *author;
 @property (strong, nonatomic, readwrite) NSDictionary *multimedia;
 @property (strong, nonatomic, readwrite) NSDictionary *link;
-@property (copy, nonatomic, readwrite) NSString *publicationDate;
-@property (copy, nonatomic, readwrite) NSString *updatedDate;
+@property (strong, nonatomic, readwrite) NSDate *publicationDate;
+@property (strong, nonatomic, readwrite) NSDate *updatedDate;
 @property (strong, nonatomic, readwrite) UIImage *image;
 
 - (instancetype)initWithDictionary:(NSDictionary *)article;

@@ -21,7 +21,17 @@
                                                                    NSURLResponse *response,
                                                                    NSError *error) {
                                                    if (data) {
-                                                       NSArray *articles = [[MADCoreDataStack sharedCoreDataStack] parseData:data];
+                                                       NSArray *articles = [[MADCoreDataStack sharedCoreDataStack] uniquenessCheck:[self parseData:data]];
+                                                       
+                                                       [[MADCoreDataStack sharedCoreDataStack] saveArticles:articles];
+
+                                                       for (NSDictionary *article in articles) {
+                                                           [MADDownloader loadImageWithURL:[[NSURL alloc] initWithString:article[@"multimedia"][@"src"]]];
+                                                           
+//                                                           dispatch_async(dispatch_get_main_queue(), ^{
+//                                                               [MADDownloader loadImageWithURL:[[NSURL alloc] initWithString:article[@"multimedia"][@"src"]]];
+//                                                           });
+                                                       }
                                         
                                                        dispatch_async(dispatch_get_main_queue(), ^{
                                                            if (completionBlock) {
@@ -47,6 +57,13 @@
 //    return allArticle;
 //}
 
++ (NSArray *)parseData:(NSData *)data {
+    NSDictionary *articlesDict = [NSJSONSerialization JSONObjectWithData:data
+                                                                 options:NSJSONReadingMutableContainers
+                                                                   error:nil];
+    return articlesDict[@"results"];
+}
+
 + (void)loadImageWithURL:(NSURL *)url {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSURLSession *sesion = [NSURLSession sharedSession];
@@ -56,7 +73,7 @@
                                                                    NSError *error) {
                                                    if (data) {
                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                           [[MADCoreDataStack sharedCoreDataStack] saveImage:data];
+                                                           [[MADCoreDataStack sharedCoreDataStack] saveImage:data url:url];
                                                        });
                                                    } else if (error) {
                                                         NSLog(@"%@", error);

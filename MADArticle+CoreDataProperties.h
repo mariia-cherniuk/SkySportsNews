@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *summaryShort;
 @property (nullable, nonatomic, retain) NSString *headline;
 @property (nullable, nonatomic, retain) NSString *author;
-@property (nullable, nonatomic, retain) NSString *publicationDate;
-@property (nullable, nonatomic, retain) NSString *updatedDate;
+@property (nullable, nonatomic, retain) NSDate *publicationDate;
+@property (nullable, nonatomic, retain) NSDate *updatedDate;
 @property (nullable, nonatomic, retain) id link;
 @property (nullable, nonatomic, retain) id image;
 @property (nullable, nonatomic, retain) id multimedia;

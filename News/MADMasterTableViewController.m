@@ -64,6 +64,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MADCustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    
     if (cell == nil) {
         cell = [[MADCustomTableViewCell alloc] initWithStyle:
                 UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
@@ -71,21 +72,14 @@
     
     MADArticle *cellObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-//    MADArticle *cellObject = (MADArticle *)[_articles objectAtIndex:indexPath.row];
-
     cell.headline.text = [NSString stringWithFormat:@"%@", cellObject.headline];
     cell.author.text = [NSString stringWithFormat:@"%@", cellObject.author];
     cell.imageView.frame = cell.image.frame;
-    
-    if (!cellObject.image) {
-//        [MADDownloader loadImageWithURL:[[NSURL alloc] initWithString:cellObject.multimedia[@"src"]] completionBlock:^(UIImage *image) {
-//            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//            cellObject.image = image;
-//        }];
-        cell.imageView.image = [UIImage imageNamed:@"placeholder.png"];
-    } else {
-        cell.imageView.image = cellObject.image;
-    }
+//
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        cell.imageView.image = cellObject.image;
+//    });
+    cell.imageView.image = [UIImage imageNamed:@"placeholder.png"];
     
     NSLog(@"%@", cell.imageView.image);
     
@@ -93,7 +87,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    MADArticle *article = _articles[indexPath.row];
+    MADArticle *article = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     _detailVC.detailItem = article;
     [self.splitViewController showDetailViewController:_detailNC sender:nil];
@@ -104,7 +98,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 80;
 }
-
 
 #pragma mark - Fetched results controller
 
@@ -128,8 +121,11 @@
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                                                managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc]
+                                                             initWithFetchRequest:fetchRequest
+                                                             managedObjectContext:self.managedObjectContext
+                                                               sectionNameKeyPath:nil
+                                                                        cacheName:@"Master"];
 //    aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
@@ -139,6 +135,12 @@
     }
     
     return _fetchedResultsController;
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView reloadData];
 }
 
 @end
