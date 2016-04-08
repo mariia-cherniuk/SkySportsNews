@@ -136,9 +136,8 @@
         [newArticle setValue:article[@"link"] forKey:@"link"];
         [newArticle setValue:[self convertPublicationDateFrom:article[@"publication_date"]] forKey:@"publicationDate"];
         [newArticle setValue:[self convertUpdateDateFrom:article[@"date_updated"]] forKey:@"updatedDate"];
-        [newArticle setValue:article[@"multimedia"][@"src"] forKey:@"image"];
+//        [newArticle setValue:article[@"multimedia"][@"src"] forKey:@"image"];
 //        [self dismissViewControllerAnimated:YES completion:nil];
-        NSLog(@"%@", [newArticle valueForKey:@"image"]);
         
         NSError *error = nil;
         if (![context save:&error]) {
@@ -210,7 +209,7 @@
 - (NSArray *)fetchingDistinctValueByPredicate:(NSPredicate *)predicate {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"MADArticle"
-                                              inManagedObjectContext:_managedObjectContext];
+                                              inManagedObjectContext:self.managedObjectContext];
     [request setEntity:entity];
     request.predicate = predicate;
     request.sortDescriptors = [NSArray array];
@@ -222,17 +221,19 @@
 }
 
 - (void)saveImage:(NSData *)data url:(NSURL *)url {
-    NSString *urlStr = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     UIImage *image = [[UIImage alloc] initWithData:data];
+    //    updating record
     NSManagedObjectContext *context = self.managedObjectContext;
     NSArray *respone = [self fetchingDistinctValueByPredicate:
-                        [NSPredicate predicateWithFormat:@"image==%@", urlStr]];
-    
-    [respone[0] setValue:image forKey:@"image"];
-    
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+                        [NSPredicate predicateWithFormat:@"image==%@", [url absoluteString]]];
+
+    if (respone.count != 0) {
+        [respone[0] setValue:image forKey:@"image"];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        }
     }
 }
 

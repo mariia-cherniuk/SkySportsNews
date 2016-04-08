@@ -13,24 +13,25 @@
 @implementation MADDownloader
 
 + (void)loadDataWithCompletionBlock:(void (^)(NSArray *articles))completionBlock {
-    NSURL *url = [[NSURL alloc] initWithString:@"http://api.nytimes.com/svc/movies/v2/reviews/search.json?api-key=70fa840d78c03e84491215dd512385d2:12:74726916"];
+    NSURL *url = [[NSURL alloc] initWithString:
+                  @"https://skysportsapi.herokuapp.com/sky/getnews/football/v1.0/"];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSURLSession *sesion = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [sesion dataTaskWithRequest:request
                                                completionHandler:^(NSData *data,
                                                                    NSURLResponse *response,
-                                                                   NSError *error) {
+                                                                    NSError *error) {
                                                    if (data) {
                                                        NSArray *articles = [[MADCoreDataStack sharedCoreDataStack] uniquenessCheck:[self parseData:data]];
                                                        
                                                        [[MADCoreDataStack sharedCoreDataStack] saveArticles:articles];
 
-                                                       for (NSDictionary *article in articles) {
-                                                           [MADDownloader loadImageWithURL:[[NSURL alloc] initWithString:article[@"multimedia"][@"src"]]];
-                                                           
-//                                                           dispatch_async(dispatch_get_main_queue(), ^{
-//                                                               [MADDownloader loadImageWithURL:[[NSURL alloc] initWithString:article[@"multimedia"][@"src"]]];
-//                                                           });
+                                                       for (NSDictionary *article in articles) {                                                           
+                                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                                               if (![article[@"multimedia"] isKindOfClass:[NSNull class]]) {
+                                                                   [MADDownloader loadImageWithURL:[[NSURL alloc] initWithString:article[@"multimedia"][@"src"]]];
+                                                               }
+                                                           });
                                                        }
                                         
                                                        dispatch_async(dispatch_get_main_queue(), ^{
@@ -58,10 +59,14 @@
 //}
 
 + (NSArray *)parseData:(NSData *)data {
-    NSDictionary *articlesDict = [NSJSONSerialization JSONObjectWithData:data
+    NSArray *articlesDict = [NSJSONSerialization JSONObjectWithData:data
                                                                  options:NSJSONReadingMutableContainers
                                                                    error:nil];
-    return articlesDict[@"results"];
+    NSLog(@"%@", articlesDict[0][@"imgsrc"]);
+    NSLog(@"%@", articlesDict[0][@"link"]);
+    NSLog(@"%@", articlesDict[0][@"shortdesc"]);
+    
+    return articlesDict;
 }
 
 + (void)loadImageWithURL:(NSURL *)url {

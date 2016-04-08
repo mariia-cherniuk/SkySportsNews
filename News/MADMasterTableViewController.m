@@ -40,9 +40,6 @@
 
 - (void)loadArticles {
     [MADDownloader loadDataWithCompletionBlock:^(NSArray *articles) {
-//        for (NSDictionary *article in articles) {
-//            [MADDownloader loadImageWithURL:[[NSURL alloc] initWithString:article[@"multimedia"][@"src"]]];
-//        }
     }];
 }
 
@@ -74,15 +71,8 @@
     
     cell.headline.text = [NSString stringWithFormat:@"%@", cellObject.headline];
     cell.author.text = [NSString stringWithFormat:@"%@", cellObject.author];
-    cell.imageView.frame = cell.image.frame;
-//
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        cell.imageView.image = cellObject.image;
-//    });
-    cell.imageView.image = [UIImage imageNamed:@"placeholder.png"];
-    
-    NSLog(@"%@", cell.imageView.image);
-    
+    cell.imageView.image = cellObject.image;
+        
     return cell;
 }
 

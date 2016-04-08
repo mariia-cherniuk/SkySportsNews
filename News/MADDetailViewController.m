@@ -149,13 +149,13 @@
     
     [_scrollView addConstraint:heightConstraint];
     self.contentViewHeightConstraint = heightConstraint;
-    self.contentViewHeightConstraint.constant = 2000;
+    self.contentViewHeightConstraint.constant = 1500;
 }
 
 - (void)configureView {
     if (_link) {
         _headline.text = _detailItem.headline;
-        _image.image = _detailItem.image;
+//        _image.image = _detailItem.image;
         _updatedDate.text = [NSString stringWithFormat:@"Updated: %@", _detailItem.updatedDate];
         _summaryShort.text = _detailItem.summaryShort;
     
