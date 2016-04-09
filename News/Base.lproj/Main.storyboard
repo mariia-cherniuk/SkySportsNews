@@ -51,13 +51,6 @@
                                     <rect key="frame" x="0.0" y="15" width="400" height="44"/>
                                 </variation>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZp-2e-Im2">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="mary"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="177" y="411" width="35" height="30"/>
-                                </variation>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016-03-04" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QS5-rW-giY">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -83,7 +76,6 @@
                                 <exclude reference="TJM-Nd-ZOo"/>
                                 <exclude reference="qvj-5u-vyU"/>
                                 <exclude reference="vR3-uU-O8w"/>
-                                <exclude reference="xZp-2e-Im2"/>
                                 <exclude reference="QS5-rW-giY"/>
                                 <exclude reference="fYA-MV-2vj"/>
                             </mask>
@@ -94,7 +86,6 @@
                                 <include reference="TJM-Nd-ZOo"/>
                                 <include reference="qvj-5u-vyU"/>
                                 <include reference="vR3-uU-O8w"/>
-                                <include reference="xZp-2e-Im2"/>
                                 <include reference="QS5-rW-giY"/>
                                 <include reference="fYA-MV-2vj"/>
                             </mask>
@@ -107,6 +98,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="placeholder" width="75" height="75"/>
+        <image name="placeholder" width="240" height="177"/>
     </resources>
 </document>

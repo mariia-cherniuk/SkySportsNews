@@ -8,7 +8,8 @@
 
 #import "MADCoreDataStack.h"
 #import <CoreData/CoreData.h>
-#import "MADArticle+CoreDataProperties.h"
+#import "MADDownloader.h"
+#import "MADArticle.h"
 
 @implementation MADCoreDataStack
 
@@ -63,8 +64,7 @@
         dict[NSLocalizedFailureReasonErrorKey] = failureReason;
         dict[NSUnderlyingErrorKey] = error;
         error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-        // Replace this with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
@@ -87,118 +87,34 @@
     return _managedObjectContext;
 }
 
-#pragma mark - Core Data Saving support
+#pragma mark - Private
 
-- (void)saveContext {
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    
-    if (managedObjectContext != nil) {
-        NSError *error = nil;
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-}
-
-- (NSDate *)convertPublicationDateFrom:(NSString *)date {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSDate *dateFromString = [[NSDate alloc] init];
-    
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    dateFromString = [dateFormatter dateFromString:date];
-    
-    return dateFromString;
-}
-
-- (NSDate *)convertUpdateDateFrom:(NSString *)date {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSDate *dateFromString = [[NSDate alloc] init];
-
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    dateFromString = [dateFormatter dateFromString:date];
-    
-    return dateFromString;
-}
-
-- (void)saveArticles:(NSArray *)articles {
-    NSManagedObjectContext *context = self.managedObjectContext;
-
-    for (NSDictionary *article in articles) {
-        NSManagedObject *newArticle = [NSEntityDescription insertNewObjectForEntityForName:@"MADArticle" inManagedObjectContext:context];
-
-        [newArticle setValue:article[@"summary_short"] forKey:@"summaryShort"];
-        [newArticle setValue:article[@"headline"] forKey:@"headline"];
-        [newArticle setValue:article[@"byline"] forKey:@"author"];
-        [newArticle setValue:article[@"multimedia"] forKey:@"multimedia"];
-        [newArticle setValue:article[@"link"] forKey:@"link"];
-        [newArticle setValue:[self convertPublicationDateFrom:article[@"publication_date"]] forKey:@"publicationDate"];
-        [newArticle setValue:[self convertUpdateDateFrom:article[@"date_updated"]] forKey:@"updatedDate"];
-//        [newArticle setValue:article[@"multimedia"][@"src"] forKey:@"image"];
-//        [self dismissViewControllerAnimated:YES completion:nil];
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
-        }
-    }
-}
-
-//- (NSArray *)uniquenessCheck:(NSArray *)articles {
-//    NSMutableArray *uniqueArticles = [[NSMutableArray alloc] init];
-//    NSArray *respone = [self fetchingRecords];
+//- (NSDate *)convertDateFrom:(NSString *)date format:(NSString *)format {
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    NSDate *dateFromString = [[NSDate alloc] init];
 //    
-//    if (respone.count == 0) {
-//        [uniqueArticles addObjectsFromArray:articles];
-//    } else {
-//        for (NSInteger i = 0; i < articles.count; i++) {
-//            if ((articles[i][@"date_updated"] != [respone[i] updatedDate]) && ![articles[i][@"headline"] isEqualToString:[respone[i] headline]]) {
-//                [uniqueArticles addObject:articles[i]];
-//            }
-//        }
-//    }
-//
-//    return uniqueArticles;
-//}
-
-//- (NSArray *)fetchingRecords {
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MADArticle" inManagedObjectContext:self.managedObjectContext];
-//    [fetchRequest setEntity:entity];
-//
-//    NSError *error = nil;
-//    NSArray *result = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
-//
-//    if (error) {
-//        NSLog(@"Unable to execute fetch request.");
-//        NSLog(@"%@, %@", error, error.localizedDescription);
-//    }
-//
-//    return result;
+//    [dateFormatter setDateFormat:format];
+//    dateFromString = [dateFormatter dateFromString:date];
+//    
+//    return dateFromString;
 //}
 
 - (NSArray *)uniquenessCheck:(NSArray *)articles {
     NSMutableArray *uniqueArticles = [[NSMutableArray alloc] init];
-    NSArray *respone = [self fetchingDistinctValueByPredicate:
-                        [NSPredicate predicateWithFormat:@"updatedDate==max(updatedDate)"]];
-    NSSortDescriptor *desc = [NSSortDescriptor sortDescriptorWithKey:@"date_updated" ascending:YES];
-    
-    [articles sortedArrayUsingDescriptors:@[desc]];
+    NSArray *respone = [self fetchingDistinctValueByPredicate:nil];
     
     if (respone.count == 0) {
         [uniqueArticles addObjectsFromArray:articles];
     } else {
-        for (NSInteger i = articles.count - 1; i >= 0; i--) {
-            NSDate *date = [self convertUpdateDateFrom:articles[i][@"date_updated"]];
-            
-            if ([date compare:[respone[0] updatedDate]] == NSOrderedDescending) {
-                NSArray *unique = [articles subarrayWithRange:NSMakeRange(0, i)];
-                NSLog(@"%@", unique);
-                
-                [uniqueArticles addObjectsFromArray:unique];
+        NSMutableSet *temp = [NSMutableSet set];
+        
+        for (MADArticle *article in respone) {
+            [temp addObject:article.title];
+        }
+
+        for (NSInteger i = 0; i < articles.count; i++) {
+            if(![temp containsObject:articles[i][@"title"]]) {
+                [uniqueArticles addObject:articles[i]];
             }
         }
     }
@@ -220,15 +136,20 @@
     return array;
 }
 
-- (void)saveImage:(NSData *)data url:(NSURL *)url {
-    UIImage *image = [[UIImage alloc] initWithData:data];
-    //    updating record
-    NSManagedObjectContext *context = self.managedObjectContext;
-    NSArray *respone = [self fetchingDistinctValueByPredicate:
-                        [NSPredicate predicateWithFormat:@"image==%@", [url absoluteString]]];
+#pragma mark - Core Data Saving support
 
-    if (respone.count != 0) {
-        [respone[0] setValue:image forKey:@"image"];
+- (void)saveArticles:(NSArray *)articles category:(NSString *)category {
+    NSManagedObjectContext *context = self.managedObjectContext;
+    
+    for (NSDictionary *article in articles) {
+        MADArticle *newArticle = (MADArticle *)[NSEntityDescription insertNewObjectForEntityForName:
+                                                @"MADArticle" inManagedObjectContext:context];
+        
+        newArticle.title = article[@"title"];
+        newArticle.link = article[@"link"];
+        newArticle.summaryShort = article[@"shortdesc"];
+        newArticle.imageURL = article[@"imgsrc"];
+        newArticle.category = category;
         
         NSError *error = nil;
         if (![context save:&error]) {

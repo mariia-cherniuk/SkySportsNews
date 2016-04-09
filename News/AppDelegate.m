@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "MADDownloader.h"
 #import "MADMasterTableViewController.h"
 #import "MADDetailViewController.h"
 #import "MADCoreDataStack.h"
@@ -18,12 +17,10 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     UISplitViewController *splitVC = [[UISplitViewController alloc] init];
-    MADDetailViewController *detailVC = [[MADDetailViewController alloc] init];
     MADMasterTableViewController *masterVC = [[MADMasterTableViewController alloc] init];
+    MADDetailViewController *detailVC = [[MADDetailViewController alloc] init];
     UINavigationController *masterNC = [[UINavigationController alloc] initWithRootViewController:masterVC];
     UINavigationController *detailNC = [[UINavigationController alloc] initWithRootViewController:detailVC];
     
@@ -37,8 +34,17 @@
     _window.rootViewController = splitVC;
     
     masterVC.managedObjectContext = [[MADCoreDataStack sharedCoreDataStack] managedObjectContext];
-
+    
     return YES;
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    NSManagedObjectContext *context = [[MADCoreDataStack sharedCoreDataStack] managedObjectContext];
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
 }
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {

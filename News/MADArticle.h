@@ -2,24 +2,21 @@
 //  MADArticle.h
 //  News
 //
-//  Created by Mariia Cherniuk on 18.03.16.
+//  Created by Mariia Cherniuk on 09.04.16.
 //  Copyright © 2016 marydort. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
-@interface MADArticle : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (copy, nonatomic, readwrite) NSString *summaryShort;
-@property (copy, nonatomic, readwrite) NSString *headline;
-@property (copy, nonatomic, readwrite) NSString *author;
-@property (strong, nonatomic, readwrite) NSDictionary *multimedia;
-@property (strong, nonatomic, readwrite) NSDictionary *link;
-@property (strong, nonatomic, readwrite) NSDate *publicationDate;
-@property (strong, nonatomic, readwrite) NSDate *updatedDate;
-@property (strong, nonatomic, readwrite) UIImage *image;
+@interface MADArticle : NSManagedObject
 
-- (instancetype)initWithDictionary:(NSDictionary *)article;
+// Insert code here to declare functionality of your managed object subclass
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "MADArticle+CoreDataProperties.h"

@@ -13,7 +13,7 @@
 
 @property (strong, nonatomic, readwrite) UILabel *headline;
 @property (strong, nonatomic, readwrite) UIImageView *image;
-@property (strong, nonatomic, readwrite) UILabel *updatedDate;
+//@property (strong, nonatomic, readwrite) UILabel *updatedDate;
 @property (strong, nonatomic, readwrite) UILabel *summaryShort;
 @property (strong, nonatomic, readwrite) UILabel *link;
 @property (strong, nonatomic, readwrite) UIScrollView *scrollView;
@@ -73,7 +73,7 @@
     [self createContentView];
     [self createdImageView];
     [self createdHeadlineLabel];
-    [self createdUpdatedDate];
+//    [self createdUpdatedDate];
     [self createdSummaryShort];
     [self createdLink];
 }
@@ -91,6 +91,45 @@
         _detailItem = detailItem;
         [self configureView];
     }
+}
+
+- (void)createScrollView {
+    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.view addSubview:_scrollView];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_scrollView
+                                                          attribute:NSLayoutAttributeLeading
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeTrailing
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_scrollView
+                                                          attribute:NSLayoutAttributeTrailing
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_scrollView
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_scrollView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:0]];
 }
 
 - (void)createContentView {
@@ -149,18 +188,18 @@
     
     [_scrollView addConstraint:heightConstraint];
     self.contentViewHeightConstraint = heightConstraint;
-    self.contentViewHeightConstraint.constant = 1500;
+    self.contentViewHeightConstraint.constant = 1000;
 }
 
 - (void)configureView {
     if (_link) {
-        _headline.text = _detailItem.headline;
-//        _image.image = _detailItem.image;
-        _updatedDate.text = [NSString stringWithFormat:@"Updated: %@", _detailItem.updatedDate];
+        _headline.text = _detailItem.title;
+        _image.image = [UIImage imageWithData:_detailItem.image];
+//        _updatedDate.text = [NSString stringWithFormat:@"Updated: %@", _detailItem.updatedDate];
         _summaryShort.text = _detailItem.summaryShort;
     
-        NSURL *URL = [NSURL URLWithString:_detailItem.link[@"url"]];
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:_detailItem.link[@"suggested_link_text"]];
+        NSURL *URL = [NSURL URLWithString:_detailItem.link];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"link"];
         [str addAttribute:NSLinkAttributeName value:URL range:NSMakeRange(0, str.length)];
         [_link setAttributedText:str];
     }
@@ -186,28 +225,28 @@
     NSLayoutConstraint *headlineLeftSide = [NSLayoutConstraint constraintWithItem:_headline
                                                                         attribute:NSLayoutAttributeLeading
                                                                         relatedBy:NSLayoutRelationEqual
-                                                                           toItem:_image
-                                                                        attribute:NSLayoutAttributeTrailing
+                                                                           toItem:_contentView
+                                                                        attribute:NSLayoutAttributeLeading
                                                                        multiplier:1
-                                                                         constant:10];
+                                                                         constant:20];
     
     NSLayoutConstraint *headlineTop = [NSLayoutConstraint constraintWithItem:_headline
                                                                    attribute:NSLayoutAttributeTop
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:_image
-                                                                   attribute:NSLayoutAttributeTop
+                                                                   attribute:NSLayoutAttributeBottom
                                                                   multiplier:1
-                                                                    constant:0];
+                                                                    constant:10];
     
-    NSLayoutConstraint *headlineCenterY = [NSLayoutConstraint constraintWithItem:_headline
-                                                                       attribute:NSLayoutAttributeCenterY
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:_image
-                                                                       attribute:NSLayoutAttributeCenterY
-                                                                      multiplier:1
-                                                                        constant:0];
+//    NSLayoutConstraint *headlineCenterY = [NSLayoutConstraint constraintWithItem:_headline
+//                                                                       attribute:NSLayoutAttributeCenterY
+//                                                                       relatedBy:NSLayoutRelationEqual
+//                                                                          toItem:_image
+//                                                                       attribute:NSLayoutAttributeCenterY
+//                                                                      multiplier:1
+//                                                                        constant:0];
     
-    [_contentView addConstraints:@[headlineRightSide, headlineLeftSide, headlineTop, headlineCenterY]];
+    [_contentView addConstraints:@[headlineRightSide, headlineLeftSide, headlineTop]];
 }
 
 - (void)createdImageView {
@@ -222,23 +261,32 @@
                                                                         toItem:_contentView
                                                                      attribute:NSLayoutAttributeLeading
                                                                     multiplier:1
-                                                                      constant:20];
+                                                                      constant:0];
     
-    NSLayoutConstraint *imageWidth = [NSLayoutConstraint constraintWithItem:_image
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:nil
-                                                                  attribute:NSLayoutAttributeNotAnAttribute
-                                                                 multiplier:1
-                                                                   constant:140];
+    NSLayoutConstraint *imageRigthSide = [NSLayoutConstraint constraintWithItem:_image
+                                                                     attribute:NSLayoutAttributeTrailing
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:_contentView
+                                                                     attribute:NSLayoutAttributeTrailing
+                                                                    multiplier:1
+                                                                      constant:0];
+
     
-    NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:_image
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:nil
-                                                                   attribute:NSLayoutAttributeNotAnAttribute
-                                                                  multiplier:1
-                                                                    constant:100];
+//    NSLayoutConstraint *imageWidth = [NSLayoutConstraint constraintWithItem:_image
+//                                                                  attribute:NSLayoutAttributeWidth
+//                                                                  relatedBy:NSLayoutRelationEqual
+//                                                                     toItem:nil
+//                                                                  attribute:NSLayoutAttributeNotAnAttribute
+//                                                                 multiplier:1
+//                                                                   constant:140];
+//    
+//    NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:_image
+//                                                                   attribute:NSLayoutAttributeHeight
+//                                                                   relatedBy:NSLayoutRelationEqual
+//                                                                      toItem:nil
+//                                                                   attribute:NSLayoutAttributeNotAnAttribute
+//                                                                  multiplier:1
+//                                                                    constant:100];
 
     NSLayoutConstraint *imageTop = [NSLayoutConstraint constraintWithItem:_image
                                                                 attribute:NSLayoutAttributeTop
@@ -246,53 +294,53 @@
                                                                    toItem:_contentView
                                                                 attribute:NSLayoutAttributeTop
                                                                multiplier:1
-                                                                 constant:20];
+                                                                 constant:0];
     
-    [_contentView addConstraints:@[imageLeftSide, imageTop, imageHeight, imageWidth]];
+    [_contentView addConstraints:@[imageLeftSide, imageTop, imageRigthSide]];
 }
 
-- (void)createdUpdatedDate {
-    _updatedDate = [[UILabel alloc] init];
-//    _updatedDate.backgroundColor = [UIColor orangeColor];
-    _updatedDate.textAlignment = NSTextAlignmentLeft;
-    _updatedDate.translatesAutoresizingMaskIntoConstraints = NO;
-    _updatedDate.font = [UIFont italicSystemFontOfSize:10.0f];
-    _updatedDate.numberOfLines = 0;
-    _updatedDate.textColor = [UIColor grayColor];
-    [_contentView addSubview:_updatedDate];
-    
-    NSLayoutConstraint *updatedDateLeftSide = [NSLayoutConstraint constraintWithItem:_updatedDate
-                                                                           attribute:NSLayoutAttributeLeading
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:_image
-                                                                           attribute:NSLayoutAttributeLeading
-                                                                          multiplier:1
-                                                                            constant:0];
-    
-    NSLayoutConstraint *updatedDateTop = [NSLayoutConstraint constraintWithItem:_updatedDate
-                                                                          attribute:NSLayoutAttributeTop
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:_image
-                                                                          attribute:NSLayoutAttributeBaseline
-                                                                         multiplier:1
-                                                                           constant:10];
-    
-    NSLayoutConstraint *updatedDateRightSide = [NSLayoutConstraint constraintWithItem:_updatedDate
-                                                                           attribute:NSLayoutAttributeTrailing
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:_headline
-                                                                           attribute:NSLayoutAttributeTrailing
-                                                                          multiplier:1
-                                                                            constant:0];
-
-    [_contentView addConstraints:@[updatedDateLeftSide, updatedDateTop, updatedDateRightSide]];
-}
+//- (void)createdUpdatedDate {
+//    _updatedDate = [[UILabel alloc] init];
+////    _updatedDate.backgroundColor = [UIColor orangeColor];
+//    _updatedDate.textAlignment = NSTextAlignmentLeft;
+//    _updatedDate.translatesAutoresizingMaskIntoConstraints = NO;
+//    _updatedDate.font = [UIFont italicSystemFontOfSize:10.0f];
+//    _updatedDate.numberOfLines = 0;
+//    _updatedDate.textColor = [UIColor grayColor];
+//    [_contentView addSubview:_updatedDate];
+//    
+//    NSLayoutConstraint *updatedDateLeftSide = [NSLayoutConstraint constraintWithItem:_updatedDate
+//                                                                           attribute:NSLayoutAttributeLeading
+//                                                                           relatedBy:NSLayoutRelationEqual
+//                                                                              toItem:_image
+//                                                                           attribute:NSLayoutAttributeLeading
+//                                                                          multiplier:1
+//                                                                            constant:0];
+//    
+//    NSLayoutConstraint *updatedDateTop = [NSLayoutConstraint constraintWithItem:_updatedDate
+//                                                                          attribute:NSLayoutAttributeTop
+//                                                                          relatedBy:NSLayoutRelationEqual
+//                                                                             toItem:_image
+//                                                                          attribute:NSLayoutAttributeBaseline
+//                                                                         multiplier:1
+//                                                                           constant:10];
+//    
+//    NSLayoutConstraint *updatedDateRightSide = [NSLayoutConstraint constraintWithItem:_updatedDate
+//                                                                           attribute:NSLayoutAttributeTrailing
+//                                                                           relatedBy:NSLayoutRelationEqual
+//                                                                              toItem:_headline
+//                                                                           attribute:NSLayoutAttributeTrailing
+//                                                                          multiplier:1
+//                                                                            constant:0];
+//
+//    [_contentView addConstraints:@[updatedDateLeftSide, updatedDateTop, updatedDateRightSide]];
+//}
 
 - (void)createdSummaryShort {
     _summaryShort = [[UILabel alloc] init];
     _summaryShort.textAlignment = NSTextAlignmentCenter;
     _summaryShort.translatesAutoresizingMaskIntoConstraints = NO;
-    _summaryShort.font = [UIFont systemFontOfSize:15.0f];
+    _summaryShort.font = [UIFont italicSystemFontOfSize:15.0f];
     _summaryShort.numberOfLines = 0;
     _summaryShort.textColor = [UIColor blackColor];
 //    _summaryShort.backgroundColor = [UIColor orangeColor];
@@ -318,7 +366,7 @@
     NSLayoutConstraint *summaryShortTop = [NSLayoutConstraint constraintWithItem:_summaryShort
                                                                        attribute:NSLayoutAttributeTop
                                                                        relatedBy:NSLayoutRelationEqual
-                                                                          toItem:_updatedDate
+                                                                          toItem:_headline
                                                                        attribute:NSLayoutAttributeBaseline
                                                                       multiplier:1
                                                                         constant:20];
@@ -366,7 +414,7 @@
 }
 
 - (IBAction)linkPressed:(UIButton *)sender {
-    NSURL *url = [NSURL URLWithString:_detailItem.link[@"url"]];
+    NSURL *url = [NSURL URLWithString:_detailItem.link];
 
     if ([[UIApplication sharedApplication] canOpenURL:url]) {
         [[UIApplication sharedApplication] openURL:url];
@@ -374,9 +422,8 @@
 }
 
 - (IBAction)sharePressed:(UIButton *)sender {
-    NSString *headline = _detailItem.link[@"suggested_link_text"];
-    NSString *link = _detailItem.link[@"url"];
-    NSArray *objectsToShare = @[headline, link];
+    NSString *link = _detailItem.link;
+    NSArray *objectsToShare = @[link];
     
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:
                                             objectsToShare applicationActivities:nil];

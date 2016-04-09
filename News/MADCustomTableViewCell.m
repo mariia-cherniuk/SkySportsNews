@@ -16,7 +16,7 @@
     if (self) {
         [self createdImage];
         [self createdHeadline];
-        [self createdAuthor];
+        [self createdCategory];
     }
     
     return self;
@@ -27,7 +27,7 @@
     _headline.textAlignment = NSTextAlignmentLeft;
     _headline.lineBreakMode = NSLineBreakByTruncatingTail;
     _headline.translatesAutoresizingMaskIntoConstraints = NO;
-    _headline.font = [UIFont systemFontOfSize:14.0f];
+    _headline.font = [UIFont boldSystemFontOfSize:14.0f];
     _headline.numberOfLines = 3;
     _headline.textColor = [UIColor blackColor];
     [self.contentView addSubview:_headline];
@@ -35,7 +35,7 @@
     NSLayoutConstraint *headlineRightSide = [NSLayoutConstraint constraintWithItem:_headline
                                                                          attribute:NSLayoutAttributeTrailing
                                                                          relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self
+                                                                            toItem:self.contentView
                                                                          attribute:NSLayoutAttributeTrailing
                                                                         multiplier:1
                                                                           constant:0];
@@ -43,101 +43,96 @@
     NSLayoutConstraint *headlineLeftSide = [NSLayoutConstraint constraintWithItem:_headline
                                                                         attribute:NSLayoutAttributeLeading
                                                                         relatedBy:NSLayoutRelationEqual
-                                                                           toItem:_image
+                                                                           toItem:_articleCellImageView
                                                                         attribute:NSLayoutAttributeTrailing
                                                                        multiplier:1
-                                                                         constant:0];
+                                                                         constant:5];
+
+    NSLayoutConstraint *headlineCenterY = [NSLayoutConstraint constraintWithItem:_headline
+                                                                       attribute:NSLayoutAttributeCenterY
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:self.contentView
+                                                                       attribute:NSLayoutAttributeCenterY
+                                                                      multiplier:1
+                                                                        constant:0];
+
     
-    NSLayoutConstraint *headlineTop = [NSLayoutConstraint constraintWithItem:_headline
-                                                                   attribute:NSLayoutAttributeTop
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self
-                                                                   attribute:NSLayoutAttributeTop
-                                                                  multiplier:1
-                                                                    constant:0];
-    
-    [self addConstraints:@[headlineRightSide, headlineLeftSide, headlineTop]];
+    [self addConstraints:@[headlineRightSide, headlineLeftSide, headlineCenterY]];
 }
 
-- (void)createdAuthor {
-    _author = [[UILabel alloc] init];
-    _author.textAlignment = NSTextAlignmentLeft;
-    _author.lineBreakMode = NSLineBreakByTruncatingTail;
-    _author.translatesAutoresizingMaskIntoConstraints = NO;
-    _author.font = [UIFont systemFontOfSize:10.0f];
-    _author.numberOfLines = 1;
-    _author.textColor = [UIColor grayColor];
-    [self.contentView addSubview:_author];
+- (void)createdCategory {
+    _category = [[UILabel alloc] init];
+    _category.textAlignment = NSTextAlignmentLeft;
+    _category.lineBreakMode = NSLineBreakByTruncatingTail;
+    _category.translatesAutoresizingMaskIntoConstraints = NO;
+    _category.font = [UIFont systemFontOfSize:12.0f];
+    _category.numberOfLines = 1;
+    _category.textColor = [UIColor grayColor];
+
+    [self.contentView addSubview:_category];
     
-    NSLayoutConstraint *authorRightSide = [NSLayoutConstraint constraintWithItem:_author
-                                                                         attribute:NSLayoutAttributeTrailing
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:_headline
-                                                                         attribute:NSLayoutAttributeTrailing
-                                                                        multiplier:1
-                                                                          constant:0];
+    NSLayoutConstraint *categoryRightSide = [NSLayoutConstraint constraintWithItem:_category
+                                                                       attribute:NSLayoutAttributeTrailing
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:_headline
+                                                                       attribute:NSLayoutAttributeTrailing
+                                                                      multiplier:1
+                                                                        constant:0];
     
-    NSLayoutConstraint *authorLeftSide = [NSLayoutConstraint constraintWithItem:_author
-                                                                        attribute:NSLayoutAttributeLeading
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:_headline
-                                                                        attribute:NSLayoutAttributeLeading
-                                                                       multiplier:1
-                                                                         constant:0];
-    
-    NSLayoutConstraint *authorTop = [NSLayoutConstraint constraintWithItem:_author
-                                                                   attribute:NSLayoutAttributeTop
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:_headline
-                                                                   attribute:NSLayoutAttributeBottom
-                                                                  multiplier:1
-                                                                    constant:0];
-    
-    NSLayoutConstraint *authorBottom = [NSLayoutConstraint constraintWithItem:_author
-                                                                      attribute:NSLayoutAttributeBottom
+    NSLayoutConstraint *categoryLeftSide = [NSLayoutConstraint constraintWithItem:_category
+                                                                      attribute:NSLayoutAttributeLeading
                                                                       relatedBy:NSLayoutRelationEqual
-                                                                         toItem:self
-                                                                      attribute:NSLayoutAttributeBottom
+                                                                         toItem:_headline
+                                                                      attribute:NSLayoutAttributeLeading
                                                                      multiplier:1
                                                                        constant:0];
     
-    [self addConstraints:@[authorRightSide, authorLeftSide, authorTop, authorBottom]];
+    NSLayoutConstraint *categoryBottom = [NSLayoutConstraint constraintWithItem:_category
+                                                                    attribute:NSLayoutAttributeBottom
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:self.contentView
+                                                                    attribute:NSLayoutAttributeBottom
+                                                                   multiplier:1
+                                                                     constant:0];
+    
+    [self addConstraints:@[categoryLeftSide, categoryRightSide, categoryBottom]];
 }
 
 - (void)createdImage {
-    _image = [[UIImageView alloc] init];
-    _image.translatesAutoresizingMaskIntoConstraints = NO;
+    _articleCellImageView = [[UIImageView alloc] init];
+    _articleCellImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    _articleCellImageView.clipsToBounds = YES;
     
-    [self.contentView addSubview:_image];
+    [self.contentView addSubview:_articleCellImageView];
     
-    NSLayoutConstraint *imageLeftSide = [NSLayoutConstraint constraintWithItem:_image
+    NSLayoutConstraint *imageLeftSide = [NSLayoutConstraint constraintWithItem:_articleCellImageView
                                                                      attribute:NSLayoutAttributeLeading
                                                                      relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self
+                                                                        toItem:self.contentView
                                                                      attribute:NSLayoutAttributeLeading
                                                                     multiplier:1
                                                                       constant:0];
     
-    NSLayoutConstraint *imageWidth = [NSLayoutConstraint constraintWithItem:_image
+    NSLayoutConstraint *imageWidth = [NSLayoutConstraint constraintWithItem:_articleCellImageView
                                                                   attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:nil
                                                                   attribute:NSLayoutAttributeNotAnAttribute
                                                                  multiplier:1
-                                                                   constant:140];
+                                                                   constant:120];
     
-    NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:_image
-                                                                   attribute:NSLayoutAttributeHeight
+    NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:_articleCellImageView
+                                                                   attribute:NSLayoutAttributeBottom
                                                                    relatedBy:NSLayoutRelationEqual
-                                                                      toItem:nil
-                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                      toItem:self.contentView
+                                                                   attribute:NSLayoutAttributeBottom
                                                                   multiplier:1
-                                                                    constant:100];
+                                                                    constant:0];
     
-    NSLayoutConstraint *imageTop = [NSLayoutConstraint constraintWithItem:_image
+    NSLayoutConstraint *imageTop = [NSLayoutConstraint constraintWithItem:_articleCellImageView
                                                                 attribute:NSLayoutAttributeTop
                                                                 relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self
+                                                                   toItem:self.contentView
                                                                 attribute:NSLayoutAttributeTop
                                                                multiplier:1
                                                                  constant:0];

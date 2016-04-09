@@ -11,7 +11,7 @@
 @interface MADCustomTableViewCell : UITableViewCell
 
 @property (strong, nonatomic, readwrite) UILabel *headline;
-@property (strong, nonatomic, readwrite) UIImageView *image;
-@property (strong, nonatomic, readwrite) UILabel *author;
+@property (strong, nonatomic, readwrite) UIImageView *articleCellImageView;
+@property (strong, nonatomic, readwrite) UILabel *category;
 
 @end

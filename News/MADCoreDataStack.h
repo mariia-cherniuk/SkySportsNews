@@ -11,16 +11,15 @@
 
 @interface MADCoreDataStack : NSObject
 
+@property (readonly, strong, nonatomic) UIImage *placeholder;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 + (instancetype)sharedCoreDataStack;
 
-- (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-- (void)saveArticles:(NSArray *)articles;
-- (void)saveImage:(NSData *)data url:(NSURL *)url;
+- (void)saveArticles:(NSArray *)articles category:(NSString *)category;
 - (NSArray *)uniquenessCheck:(NSArray *)articles;
 
 @end

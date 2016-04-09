@@ -2,7 +2,7 @@
 //  MADArticle+CoreDataProperties.h
 //  News
 //
-//  Created by Mariia Cherniuk on 06.04.16.
+//  Created by Mariia Cherniuk on 09.04.16.
 //  Copyright © 2016 marydort. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -15,14 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MADArticle (CoreDataProperties)
 
+@property (nullable, nonatomic, retain) NSString *category;
+@property (nullable, nonatomic, retain) NSData *image;
+@property (nullable, nonatomic, retain) NSString *link;
 @property (nullable, nonatomic, retain) NSString *summaryShort;
-@property (nullable, nonatomic, retain) NSString *headline;
-@property (nullable, nonatomic, retain) NSString *author;
-@property (nullable, nonatomic, retain) NSDate *publicationDate;
-@property (nullable, nonatomic, retain) NSDate *updatedDate;
-@property (nullable, nonatomic, retain) id link;
-@property (nullable, nonatomic, retain) id image;
-@property (nullable, nonatomic, retain) id multimedia;
+@property (nullable, nonatomic, retain) NSString *title;
+@property (nullable, nonatomic, retain) NSString *imageURL;
 
 @end
 
