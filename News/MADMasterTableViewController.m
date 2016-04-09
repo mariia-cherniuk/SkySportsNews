@@ -32,11 +32,13 @@
 }
 
 - (void)configureNavigationItem {
-    self.navigationItem.title = @"skySPORTS";
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:nil
-                                                                            action:nil];
+//    self.navigationItem.title = @"skySPORTS";
+//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+//                                                                             style:UIBarButtonItemStylePlain
+//                                                                            target:nil
+//                                                                            action:nil];
+    
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skySports"]];
     
 //    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Flip"
 //                                                                             style:UIBarButtonItemStylePlain

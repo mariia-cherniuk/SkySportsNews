@@ -65,7 +65,7 @@
                                                            constant:0]];
 
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"Movie Reviews";
+    self.navigationItem.title = @"All news";
     
     UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sharePressed:)];
     self.navigationItem.rightBarButtonItem = shareButton;
@@ -199,7 +199,8 @@
         _summaryShort.text = _detailItem.summaryShort;
     
         NSURL *URL = [NSURL URLWithString:_detailItem.link];
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"link"];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:
+                                          [NSString stringWithFormat:@"Look \"%@\" at the official website.", _detailItem.title]];
         [str addAttribute:NSLinkAttributeName value:URL range:NSMakeRange(0, str.length)];
         [_link setAttributedText:str];
     }
