@@ -133,7 +133,7 @@
 }
 
 - (void)createContentView {
-    UIView *view = [UIView new];
+    UIView *view = [[UIView alloc] init];
 //    view.backgroundColor = [UIColor blueColor];
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [_scrollView addSubview:view];

@@ -11,8 +11,10 @@
 #import "MADDownloader.h"
 #import "MADDetailViewController.h"
 #import "MADCustomTableViewCell.h"
+#import "MADSelectTableViewController.h"
+#import "MADBlurAnimator.h"
 
-@interface MADMasterTableViewController () <NSFetchedResultsControllerDelegate>
+@interface MADMasterTableViewController () <NSFetchedResultsControllerDelegate, UIViewControllerTransitioningDelegate>
 
 @property (strong, nonatomic, readwrite) NSArray *articles;
 
@@ -32,24 +34,43 @@
 }
 
 - (void)configureNavigationItem {
-//    self.navigationItem.title = @"skySPORTS";
-//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
-//                                                                             style:UIBarButtonItemStylePlain
-//                                                                            target:nil
-//                                                                            action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
+    
+    UIImage *image = [UIImage imageNamed:@"humburgerButton"];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [button setBackgroundImage:image forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(humburgerButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    button.adjustsImageWhenHighlighted = NO;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skySports"]];
-    
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Flip"
-//                                                                             style:UIBarButtonItemStylePlain
-//                                                                            target:self
-//                                                                            action:@selector(flipView:)];
-    
-    //    [[UINavigationBar appearance] setBarTintColor:[UIColor redColor]];
 }
 
--(IBAction)flipView:(UIButton *)sender {
+
+- (IBAction)humburgerButtonPressed:(UIButton *)sender {
+    MADSelectTableViewController *toViewController = [[MADSelectTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:toViewController];
+//    UIImage *image = [UIImage imageNamed:@"close"];
+//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+//    [button setBackgroundImage:image forState:UIControlStateNormal];
+//    [button addTarget:self action:@selector(closePressed:) forControlEvents:UIControlEventTouchUpInside];
+//    button.adjustsImageWhenHighlighted = NO;
+//    
+//    navigationController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+//    
+//    navigationController.view.backgroundColor = [UIColor redColor];
+    toViewController.transitioningDelegate = self;
+    toViewController.modalPresentationStyle = UIModalPresentationCustom;
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (IBAction)closePressed:(UIButton *)sender {
+    NSLog(@"close");
 }
 
 #pragma mark - Table view data source
@@ -68,8 +89,8 @@
     MADCustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
     if (cell == nil) {
-        cell = [[MADCustomTableViewCell alloc] initWithStyle:
-                UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
+        cell = [[MADCustomTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                             reuseIdentifier:@"Cell"];
     }
     
     MADArticle *cellObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -195,5 +216,18 @@
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
     [self.tableView endUpdates];
 }
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    
+    return [[MADBlurAnimator alloc] init];
+}
+
+//- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+//    
+//    return [[MADBlurAnimator alloc] init];
+//}
+//
 
 @end
