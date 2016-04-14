@@ -13,10 +13,14 @@
 @implementation MADDownloader
 
 + (void)loadData {
-    NSURL *url = [[NSURL alloc] initWithString:@"https://skysportsapi.herokuapp.com/sky/getnews/football/v1.0/"];
-    NSURL *url2 = [[NSURL alloc] initWithString:@"https://skysportsapi.herokuapp.com/sky/getnews/tennis/v1.0/"];
-    NSURL *url3 = [[NSURL alloc] initWithString:@"https://skysportsapi.herokuapp.com/sky/getnews/boxing/v1.0/"];
-    NSURL *url4 = [[NSURL alloc] initWithString:@"https://skysportsapi.herokuapp.com/sky/getnews/motorsport/v1.0/"];
+    NSURL *url = [[NSURL alloc] initWithString:
+                  @"https://skysportsapi.herokuapp.com/sky/getnews/football/v1.0/"];
+    NSURL *url2 = [[NSURL alloc] initWithString:
+                   @"https://skysportsapi.herokuapp.com/sky/getnews/tennis/v1.0/"];
+    NSURL *url3 = [[NSURL alloc] initWithString:
+                   @"https://skysportsapi.herokuapp.com/sky/getnews/boxing/v1.0/"];
+    NSURL *url4 = [[NSURL alloc] initWithString:
+                   @"https://skysportsapi.herokuapp.com/sky/getnews/motorsport/v1.0/"];
     NSArray *urls = @[url, url2, url3, url4];
     
     for (NSURL *url in urls) {

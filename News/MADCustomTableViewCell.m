@@ -15,24 +15,24 @@
 
     if (self) {
         [self createdImage];
-        [self createdHeadline];
-        [self createdCategory];
+        [self createdHeadlineLabel];
+        [self createdCategoryLabel];
     }
     
     return self;
 }
 
-- (void)createdHeadline {
-    _headline = [[UILabel alloc] init];
-    _headline.textAlignment = NSTextAlignmentLeft;
-    _headline.lineBreakMode = NSLineBreakByTruncatingTail;
-    _headline.translatesAutoresizingMaskIntoConstraints = NO;
-    _headline.font = [UIFont boldSystemFontOfSize:14.0f];
-    _headline.numberOfLines = 3;
-    _headline.textColor = [UIColor blackColor];
-    [self.contentView addSubview:_headline];
+- (void)createdHeadlineLabel {
+    _headlineLabel = [[UILabel alloc] init];
+    _headlineLabel.textAlignment = NSTextAlignmentLeft;
+    _headlineLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    _headlineLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _headlineLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+    _headlineLabel.numberOfLines = 3;
+    _headlineLabel.textColor = [UIColor blackColor];
+    [self.contentView addSubview:_headlineLabel];
     
-    NSLayoutConstraint *headlineRightSide = [NSLayoutConstraint constraintWithItem:_headline
+    NSLayoutConstraint *headlineRightSide = [NSLayoutConstraint constraintWithItem:_headlineLabel
                                                                          attribute:NSLayoutAttributeTrailing
                                                                          relatedBy:NSLayoutRelationEqual
                                                                             toItem:self.contentView
@@ -40,7 +40,7 @@
                                                                         multiplier:1
                                                                           constant:0];
     
-    NSLayoutConstraint *headlineLeftSide = [NSLayoutConstraint constraintWithItem:_headline
+    NSLayoutConstraint *headlineLeftSide = [NSLayoutConstraint constraintWithItem:_headlineLabel
                                                                         attribute:NSLayoutAttributeLeading
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:_articleCellImageView
@@ -48,7 +48,7 @@
                                                                        multiplier:1
                                                                          constant:5];
 
-    NSLayoutConstraint *headlineCenterY = [NSLayoutConstraint constraintWithItem:_headline
+    NSLayoutConstraint *headlineCenterY = [NSLayoutConstraint constraintWithItem:_headlineLabel
                                                                        attribute:NSLayoutAttributeCenterY
                                                                        relatedBy:NSLayoutRelationEqual
                                                                           toItem:self.contentView
@@ -57,37 +57,37 @@
                                                                         constant:0];
 
     
-    [self addConstraints:@[headlineRightSide, headlineLeftSide, headlineCenterY]];
+    [self.contentView addConstraints:@[headlineRightSide, headlineLeftSide, headlineCenterY]];
 }
 
-- (void)createdCategory {
-    _category = [[UILabel alloc] init];
-    _category.textAlignment = NSTextAlignmentLeft;
-    _category.lineBreakMode = NSLineBreakByTruncatingTail;
-    _category.translatesAutoresizingMaskIntoConstraints = NO;
-    _category.font = [UIFont systemFontOfSize:12.0f];
-    _category.numberOfLines = 1;
-    _category.textColor = [UIColor grayColor];
+- (void)createdCategoryLabel {
+    _categoryLabel = [[UILabel alloc] init];
+    _categoryLabel.textAlignment = NSTextAlignmentLeft;
+    _categoryLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    _categoryLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _categoryLabel.font = [UIFont systemFontOfSize:12.0f];
+    _categoryLabel.numberOfLines = 1;
+    _categoryLabel.textColor = [UIColor grayColor];
 
-    [self.contentView addSubview:_category];
+    [self.contentView addSubview:_categoryLabel];
     
-    NSLayoutConstraint *categoryRightSide = [NSLayoutConstraint constraintWithItem:_category
+    NSLayoutConstraint *categoryRightSide = [NSLayoutConstraint constraintWithItem:_categoryLabel
                                                                        attribute:NSLayoutAttributeTrailing
                                                                        relatedBy:NSLayoutRelationEqual
-                                                                          toItem:_headline
+                                                                          toItem:_headlineLabel
                                                                        attribute:NSLayoutAttributeTrailing
                                                                       multiplier:1
                                                                         constant:0];
     
-    NSLayoutConstraint *categoryLeftSide = [NSLayoutConstraint constraintWithItem:_category
+    NSLayoutConstraint *categoryLeftSide = [NSLayoutConstraint constraintWithItem:_categoryLabel
                                                                       attribute:NSLayoutAttributeLeading
                                                                       relatedBy:NSLayoutRelationEqual
-                                                                         toItem:_headline
+                                                                         toItem:_headlineLabel
                                                                       attribute:NSLayoutAttributeLeading
                                                                      multiplier:1
                                                                        constant:0];
     
-    NSLayoutConstraint *categoryBottom = [NSLayoutConstraint constraintWithItem:_category
+    NSLayoutConstraint *categoryBottom = [NSLayoutConstraint constraintWithItem:_categoryLabel
                                                                     attribute:NSLayoutAttributeBottom
                                                                     relatedBy:NSLayoutRelationEqual
                                                                        toItem:self.contentView
@@ -95,7 +95,7 @@
                                                                    multiplier:1
                                                                      constant:0];
     
-    [self addConstraints:@[categoryLeftSide, categoryRightSide, categoryBottom]];
+    [self.contentView addConstraints:@[categoryLeftSide, categoryRightSide, categoryBottom]];
 }
 
 - (void)createdImage {
@@ -137,7 +137,7 @@
                                                                multiplier:1
                                                                  constant:0];
     
-    [self addConstraints:@[imageLeftSide, imageTop, imageHeight, imageWidth]];
+    [self.contentView addConstraints:@[imageLeftSide, imageTop, imageHeight, imageWidth]];
 }
 
 @end

@@ -26,44 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    [self.view addSubview:_scrollView];
+    [self createScrollView];
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                            attribute:NSLayoutAttributeLeading
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:_scrollView
-                                                            attribute:NSLayoutAttributeLeading
-                                                           multiplier:1
-                                                           constant:0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                          attribute:NSLayoutAttributeTrailing
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeTrailing
-                                                         multiplier:1
-                                                           constant:0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1
-                                                           constant:0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1
-                                                           constant:0]];
-
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"All news";
     

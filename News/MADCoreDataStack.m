@@ -32,6 +32,8 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+#pragma mark - Core Data stack
+
 - (NSManagedObjectModel *)managedObjectModel {
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
@@ -87,17 +89,29 @@
     return _managedObjectContext;
 }
 
-#pragma mark - Private
+#pragma mark - Core Data Saving support
 
-//- (NSDate *)convertDateFrom:(NSString *)date format:(NSString *)format {
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    NSDate *dateFromString = [[NSDate alloc] init];
-//    
-//    [dateFormatter setDateFormat:format];
-//    dateFromString = [dateFormatter dateFromString:date];
-//    
-//    return dateFromString;
-//}
+- (void)saveArticles:(NSArray *)articles category:(NSString *)category {
+    NSManagedObjectContext *context = self.managedObjectContext;
+    
+    for (NSDictionary *article in articles) {
+        MADArticle *newArticle = (MADArticle *)[NSEntityDescription insertNewObjectForEntityForName:
+                                                @"MADArticle" inManagedObjectContext:context];
+        
+        newArticle.title = article[@"title"];
+        newArticle.link = article[@"link"];
+        newArticle.summaryShort = article[@"shortdesc"];
+        newArticle.imageURL = article[@"imgsrc"];
+        newArticle.category = category;
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        }
+    }
+}
+
+#pragma mark - Private
 
 - (NSArray *)uniquenessCheck:(NSArray *)articles {
     NSMutableArray *uniqueArticles = [[NSMutableArray alloc] init];
@@ -134,28 +148,6 @@
     NSArray *array = [_managedObjectContext executeFetchRequest:request error:&error];
     
     return array;
-}
-
-#pragma mark - Core Data Saving support
-
-- (void)saveArticles:(NSArray *)articles category:(NSString *)category {
-    NSManagedObjectContext *context = self.managedObjectContext;
-    
-    for (NSDictionary *article in articles) {
-        MADArticle *newArticle = (MADArticle *)[NSEntityDescription insertNewObjectForEntityForName:
-                                                @"MADArticle" inManagedObjectContext:context];
-        
-        newArticle.title = article[@"title"];
-        newArticle.link = article[@"link"];
-        newArticle.summaryShort = article[@"shortdesc"];
-        newArticle.imageURL = article[@"imgsrc"];
-        newArticle.category = category;
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
-        }
-    }
 }
 
 @end

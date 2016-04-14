@@ -1,38 +1,35 @@
 //
-//  MADSelectTableViewController.m
+//  MADFilterTableViewController.m
 //  News
 //
 //  Created by Mariia Cherniuk on 11.04.16.
 //  Copyright © 2016 marydort. All rights reserved.
 //
 
-#import "MADSelectTableViewController.h"
+#import "MADFilterTableViewController.h"
 #import "MADMasterTableViewController.h"
 
-@interface MADSelectTableViewController ()
+@interface MADFilterTableViewController ()
 
 @property (strong, nonatomic, readwrite) NSArray *categories;
 
 @end
 
-@implementation MADSelectTableViewController
+@implementation MADFilterTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _categories = @[@"Football", @"Boxing", @"Tennis", @"Motorsport"];
-    
-//    UITapGestureRecognizer *tapToDismiss = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(close)];
-//    [self.view addGestureRecognizer:tapToDismiss];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+    self.view.backgroundColor = [UIColor clearColor];
+    _categories = @[@"Football", @"Boxing", @"Tennis", @"Motorsport", @"News"];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                   target:self
+                                                                   action:@selector(closePressed)];
 }
 
 #pragma mark - Private
 
-- (void)close {
+- (void)closePressed {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -42,12 +39,16 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _categories.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-      UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
@@ -58,9 +59,10 @@
     
     return cell;
 }
-
+ 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    [_filterDelegat configureFetchedResultsControllerByValue:_categories[indexPath.row]];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

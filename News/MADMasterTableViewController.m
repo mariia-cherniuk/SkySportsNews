@@ -11,10 +11,11 @@
 #import "MADDownloader.h"
 #import "MADDetailViewController.h"
 #import "MADCustomTableViewCell.h"
-#import "MADSelectTableViewController.h"
-#import "MADBlurAnimator.h"
+#import "MADFilterTableViewController.h"
+#import "MADAnimator.h"
+#import "MADFilterTableViewControllerDelegate.h"
 
-@interface MADMasterTableViewController () <NSFetchedResultsControllerDelegate, UIViewControllerTransitioningDelegate>
+@interface MADMasterTableViewController () <NSFetchedResultsControllerDelegate, UIViewControllerTransitioningDelegate, MADFilterTableViewControllerDelegate>
 
 @property (strong, nonatomic, readwrite) NSArray *articles;
 
@@ -41,36 +42,22 @@
     
     UIImage *image = [UIImage imageNamed:@"humburgerButton"];
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    
     [button setBackgroundImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(humburgerButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     button.adjustsImageWhenHighlighted = NO;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skySports"]];
 }
 
-
 - (IBAction)humburgerButtonPressed:(UIButton *)sender {
-    MADSelectTableViewController *toViewController = [[MADSelectTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    
+    MADFilterTableViewController *toViewController = [[MADFilterTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:toViewController];
-//    UIImage *image = [UIImage imageNamed:@"close"];
-//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-//    [button setBackgroundImage:image forState:UIControlStateNormal];
-//    [button addTarget:self action:@selector(closePressed:) forControlEvents:UIControlEventTouchUpInside];
-//    button.adjustsImageWhenHighlighted = NO;
-//    
-//    navigationController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-//    
-//    navigationController.view.backgroundColor = [UIColor redColor];
-    toViewController.transitioningDelegate = self;
-    toViewController.modalPresentationStyle = UIModalPresentationCustom;
     
+    toViewController.filterDelegat = self;
+    navigationController.transitioningDelegate = self;
+    navigationController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:navigationController animated:YES completion:nil];
-}
-
-- (IBAction)closePressed:(UIButton *)sender {
-    NSLog(@"close");
 }
 
 #pragma mark - Table view data source
@@ -95,8 +82,8 @@
     
     MADArticle *cellObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    cell.headline.text = [NSString stringWithFormat:@"%@", [[cellObject.title substringFromIndex:1] uppercaseString]];
-    cell.category.text = [NSString stringWithFormat:@"%@", [cellObject.category uppercaseString]];
+    cell.headlineLabel.text = [NSString stringWithFormat:@"%@", [[cellObject.title substringFromIndex:1] uppercaseString]];
+    cell.categoryLabel.text = [NSString stringWithFormat:@"%@", [cellObject.category uppercaseString]];
 
     if (cellObject.image == nil) {
         [MADDownloader loadImageWithURL:cellObject.imageURL complitionBlock:^(NSData *image) {
@@ -137,14 +124,13 @@
     [fetchRequest setFetchBatchSize:20];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-    
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc]
                                                              initWithFetchRequest:fetchRequest
                                                              managedObjectContext:self.managedObjectContext
                                                                sectionNameKeyPath:nil
-                                                                        cacheName:@"Master"];
+                                                                        cacheName:nil];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
@@ -190,7 +176,7 @@
     }
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
     
     switch(type) {
             
@@ -220,14 +206,34 @@
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    MADAnimator *animator = [[MADAnimator alloc] init];
     
-    return [[MADBlurAnimator alloc] init];
+    animator.presenting = YES;
+    
+    return animator;
 }
 
-//- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-//    
-//    return [[MADBlurAnimator alloc] init];
-//}
-//
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    
+    MADAnimator *animator = [[MADAnimator alloc] init];
+    
+    animator.presenting = NO;
+    
+    return animator;
+}
+
+#pragma mark - MADFilterTableViewControllerDelegate
+
+- (void)configureFetchedResultsControllerByValue:(NSString *)value {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category = %@", [value lowercaseString]];
+    self.fetchedResultsController.fetchRequest.predicate = predicate;
+    
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    [self.tableView reloadData];
+}
 
 @end

@@ -10,8 +10,8 @@
 
 @interface MADCustomTableViewCell : UITableViewCell
 
-@property (strong, nonatomic, readwrite) UILabel *headline;
+@property (strong, nonatomic, readwrite) UILabel *headlineLabel;
 @property (strong, nonatomic, readwrite) UIImageView *articleCellImageView;
-@property (strong, nonatomic, readwrite) UILabel *category;
+@property (strong, nonatomic, readwrite) UILabel *categoryLabel;
 
 @end

@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8439C4681CB7D74F0014CCB7 /* MADCustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439C4671CB7D74F0014CCB7 /* MADCustomTableViewCell.m */; };
-		84870F741CBB98C70029F26C /* MADSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84870F731CBB98C70029F26C /* MADSelectTableViewController.m */; };
-		84870FA61CBC18720029F26C /* MADBlurAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 84870FA51CBC18720029F26C /* MADBlurAnimator.m */; };
+		84870F741CBB98C70029F26C /* MADFilterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84870F731CBB98C70029F26C /* MADFilterTableViewController.m */; };
+		84870FA61CBC18720029F26C /* MADAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 84870FA51CBC18720029F26C /* MADAnimator.m */; };
 		84E2CDA51C9C170800E7B049 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDA41C9C170800E7B049 /* main.m */; };
 		84E2CDA81C9C170900E7B049 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E2CDA71C9C170900E7B049 /* AppDelegate.m */; };
 		84E2CDAE1C9C170900E7B049 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84E2CDAC1C9C170900E7B049 /* Main.storyboard */; };
@@ -26,10 +26,11 @@
 
 /* Begin PBXFileReference section */
 		8439C4671CB7D74F0014CCB7 /* MADCustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADCustomTableViewCell.m; sourceTree = "<group>"; };
-		84870F721CBB98C70029F26C /* MADSelectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADSelectTableViewController.h; sourceTree = "<group>"; };
-		84870F731CBB98C70029F26C /* MADSelectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADSelectTableViewController.m; sourceTree = "<group>"; };
-		84870FA41CBC18720029F26C /* MADBlurAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADBlurAnimator.h; sourceTree = "<group>"; };
-		84870FA51CBC18720029F26C /* MADBlurAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADBlurAnimator.m; sourceTree = "<group>"; };
+		84870F721CBB98C70029F26C /* MADFilterTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADFilterTableViewController.h; sourceTree = "<group>"; };
+		84870F731CBB98C70029F26C /* MADFilterTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADFilterTableViewController.m; sourceTree = "<group>"; };
+		84870FA41CBC18720029F26C /* MADAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADAnimator.h; sourceTree = "<group>"; };
+		84870FA51CBC18720029F26C /* MADAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADAnimator.m; sourceTree = "<group>"; };
+		84DFCB631CBFC12C00B9164C /* MADFilterTableViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADFilterTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		84E2CDA01C9C170800E7B049 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E2CDA41C9C170800E7B049 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84E2CDA61C9C170800E7B049 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -94,14 +95,15 @@
 				84E9A07F1CB532B900EFA94C /* MADCoreDataStack.m */,
 				84E2CDC31C9D942600E7B049 /* MADMasterTableViewController.h */,
 				84E2CDC41C9D942600E7B049 /* MADMasterTableViewController.m */,
-				84870F721CBB98C70029F26C /* MADSelectTableViewController.h */,
-				84870F731CBB98C70029F26C /* MADSelectTableViewController.m */,
-				84870FA41CBC18720029F26C /* MADBlurAnimator.h */,
-				84870FA51CBC18720029F26C /* MADBlurAnimator.m */,
+				84870F721CBB98C70029F26C /* MADFilterTableViewController.h */,
+				84870F731CBB98C70029F26C /* MADFilterTableViewController.m */,
+				84870FA41CBC18720029F26C /* MADAnimator.h */,
+				84870FA51CBC18720029F26C /* MADAnimator.m */,
 				84E9A0781CB270B500EFA94C /* MADCustomTableViewCell.h */,
 				8439C4671CB7D74F0014CCB7 /* MADCustomTableViewCell.m */,
 				84E2CDC61C9D944000E7B049 /* MADDetailViewController.h */,
 				84E2CDC71C9D944000E7B049 /* MADDetailViewController.m */,
+				84DFCB631CBFC12C00B9164C /* MADFilterTableViewControllerDelegate.h */,
 				84E2CDC01C9D609200E7B049 /* MADDownloader.h */,
 				84E2CDC11C9D609200E7B049 /* MADDownloader.m */,
 				84E2CDAC1C9C170900E7B049 /* Main.storyboard */,
@@ -194,8 +196,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84E2CDC81C9D944000E7B049 /* MADDetailViewController.m in Sources */,
-				84870F741CBB98C70029F26C /* MADSelectTableViewController.m in Sources */,
-				84870FA61CBC18720029F26C /* MADBlurAnimator.m in Sources */,
+				84870F741CBB98C70029F26C /* MADFilterTableViewController.m in Sources */,
+				84870FA61CBC18720029F26C /* MADAnimator.m in Sources */,
 				84E2CDC21C9D609200E7B049 /* MADDownloader.m in Sources */,
 				84E9A07D1CB2BB7900EFA94C /* News.xcdatamodeld in Sources */,
 				84E2CDC51C9D942600E7B049 /* MADMasterTableViewController.m in Sources */,
