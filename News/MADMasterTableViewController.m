@@ -28,7 +28,7 @@
 
     [MADDownloader loadData];
     [self configureNavigationItem];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     _detailVC = [[MADDetailViewController alloc] init];
     _detailNC = [[UINavigationController alloc] initWithRootViewController:_detailVC];
@@ -225,14 +225,19 @@
 #pragma mark - MADFilterTableViewControllerDelegate
 
 - (void)configureFetchedResultsControllerByValue:(NSString *)value {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category = %@", [value lowercaseString]];
+    NSPredicate *predicate = nil;
+    
+    if (![value isEqualToString:@"News"]) {
+        predicate = [NSPredicate predicateWithFormat:@"category = %@", [value lowercaseString]];
+    }
     self.fetchedResultsController.fetchRequest.predicate = predicate;
     
     NSError *error = nil;
     if (![self.fetchedResultsController performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
-    
+//    at the top of the list
+    [self.tableView setContentOffset:CGPointMake(0.f, -self.tableView.contentInset.top) animated:YES];
     [self.tableView reloadData];
 }
 

@@ -14,7 +14,4 @@
 
 @property (strong, nonatomic, readwrite) MADArticle *detailItem;
 
-//@property (strong, nonatomic, readwrite) MPMoviePlayerController *moviePlayerController;
-//@property (strong, nonatomic, readwrite) UIView *movieView;
-//
 @end

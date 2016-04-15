@@ -13,7 +13,6 @@
 
 @property (strong, nonatomic, readwrite) UILabel *headline;
 @property (strong, nonatomic, readwrite) UIImageView *image;
-//@property (strong, nonatomic, readwrite) UILabel *updatedDate;
 @property (strong, nonatomic, readwrite) UILabel *summaryShort;
 @property (strong, nonatomic, readwrite) UILabel *link;
 @property (strong, nonatomic, readwrite) UIScrollView *scrollView;
@@ -26,18 +25,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self createScrollView];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"All news";
     
-    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sharePressed:)];
-    self.navigationItem.rightBarButtonItem = shareButton;
-    
+    [self createScrollView];
+    [self configureNavigationItem];
     [self createContentView];
     [self createdImageView];
     [self createdHeadlineLabel];
-//    [self createdUpdatedDate];
     [self createdSummaryShort];
     [self createdLink];
 }
@@ -46,8 +41,6 @@
     [super viewWillAppear:animated];
     [_scrollView setContentOffset:CGPointZero];
     [self configureView];
-    
-//    [_moviePlayerController play];
 }
 
 - (void)setDetailItem:(id)detailItem {
@@ -55,6 +48,14 @@
         _detailItem = detailItem;
         [self configureView];
     }
+}
+
+- (void)configureNavigationItem {
+    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sharePressed:)];
+    
+    self.navigationItem.rightBarButtonItem = shareButton;
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skySports"]];
+    self.navigationItem.titleView.backgroundColor = [UIColor redColor];
 }
 
 - (void)createScrollView {
@@ -98,7 +99,6 @@
 
 - (void)createContentView {
     UIView *view = [[UIView alloc] init];
-//    view.backgroundColor = [UIColor blueColor];
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [_scrollView addSubview:view];
     self.contentView = view;
@@ -159,7 +159,6 @@
     if (_link) {
         _headline.text = _detailItem.title;
         _image.image = [UIImage imageWithData:_detailItem.image];
-//        _updatedDate.text = [NSString stringWithFormat:@"Updated: %@", _detailItem.updatedDate];
         _summaryShort.text = _detailItem.summaryShort;
     
         NSURL *URL = [NSURL URLWithString:_detailItem.link];
@@ -172,7 +171,6 @@
 
 - (void)createdHeadlineLabel {
     _headline = [[UILabel alloc] init];
-//    _headline.backgroundColor = [UIColor redColor];
     _headline.textAlignment = NSTextAlignmentLeft;
     _headline.translatesAutoresizingMaskIntoConstraints = NO;
     _headline.font = [UIFont boldSystemFontOfSize:16.0f];
@@ -203,14 +201,6 @@
                                                                   multiplier:1
                                                                     constant:10];
     
-//    NSLayoutConstraint *headlineCenterY = [NSLayoutConstraint constraintWithItem:_headline
-//                                                                       attribute:NSLayoutAttributeCenterY
-//                                                                       relatedBy:NSLayoutRelationEqual
-//                                                                          toItem:_image
-//                                                                       attribute:NSLayoutAttributeCenterY
-//                                                                      multiplier:1
-//                                                                        constant:0];
-    
     [_contentView addConstraints:@[headlineRightSide, headlineLeftSide, headlineTop]];
 }
 
@@ -236,23 +226,6 @@
                                                                     multiplier:1
                                                                       constant:0];
 
-    
-//    NSLayoutConstraint *imageWidth = [NSLayoutConstraint constraintWithItem:_image
-//                                                                  attribute:NSLayoutAttributeWidth
-//                                                                  relatedBy:NSLayoutRelationEqual
-//                                                                     toItem:nil
-//                                                                  attribute:NSLayoutAttributeNotAnAttribute
-//                                                                 multiplier:1
-//                                                                   constant:140];
-//    
-//    NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:_image
-//                                                                   attribute:NSLayoutAttributeHeight
-//                                                                   relatedBy:NSLayoutRelationEqual
-//                                                                      toItem:nil
-//                                                                   attribute:NSLayoutAttributeNotAnAttribute
-//                                                                  multiplier:1
-//                                                                    constant:100];
-
     NSLayoutConstraint *imageTop = [NSLayoutConstraint constraintWithItem:_image
                                                                 attribute:NSLayoutAttributeTop
                                                                 relatedBy:NSLayoutRelationEqual
@@ -264,43 +237,6 @@
     [_contentView addConstraints:@[imageLeftSide, imageTop, imageRigthSide]];
 }
 
-//- (void)createdUpdatedDate {
-//    _updatedDate = [[UILabel alloc] init];
-////    _updatedDate.backgroundColor = [UIColor orangeColor];
-//    _updatedDate.textAlignment = NSTextAlignmentLeft;
-//    _updatedDate.translatesAutoresizingMaskIntoConstraints = NO;
-//    _updatedDate.font = [UIFont italicSystemFontOfSize:10.0f];
-//    _updatedDate.numberOfLines = 0;
-//    _updatedDate.textColor = [UIColor grayColor];
-//    [_contentView addSubview:_updatedDate];
-//    
-//    NSLayoutConstraint *updatedDateLeftSide = [NSLayoutConstraint constraintWithItem:_updatedDate
-//                                                                           attribute:NSLayoutAttributeLeading
-//                                                                           relatedBy:NSLayoutRelationEqual
-//                                                                              toItem:_image
-//                                                                           attribute:NSLayoutAttributeLeading
-//                                                                          multiplier:1
-//                                                                            constant:0];
-//    
-//    NSLayoutConstraint *updatedDateTop = [NSLayoutConstraint constraintWithItem:_updatedDate
-//                                                                          attribute:NSLayoutAttributeTop
-//                                                                          relatedBy:NSLayoutRelationEqual
-//                                                                             toItem:_image
-//                                                                          attribute:NSLayoutAttributeBaseline
-//                                                                         multiplier:1
-//                                                                           constant:10];
-//    
-//    NSLayoutConstraint *updatedDateRightSide = [NSLayoutConstraint constraintWithItem:_updatedDate
-//                                                                           attribute:NSLayoutAttributeTrailing
-//                                                                           relatedBy:NSLayoutRelationEqual
-//                                                                              toItem:_headline
-//                                                                           attribute:NSLayoutAttributeTrailing
-//                                                                          multiplier:1
-//                                                                            constant:0];
-//
-//    [_contentView addConstraints:@[updatedDateLeftSide, updatedDateTop, updatedDateRightSide]];
-//}
-
 - (void)createdSummaryShort {
     _summaryShort = [[UILabel alloc] init];
     _summaryShort.textAlignment = NSTextAlignmentCenter;
@@ -308,7 +244,6 @@
     _summaryShort.font = [UIFont italicSystemFontOfSize:15.0f];
     _summaryShort.numberOfLines = 0;
     _summaryShort.textColor = [UIColor blackColor];
-//    _summaryShort.backgroundColor = [UIColor orangeColor];
     
     [_contentView addSubview:_summaryShort];
     
@@ -340,7 +275,8 @@
 }
 
 - (void)createdLink {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(linkPressed:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(linkPressed:)];
     _link = [[UILabel alloc] init];
     _link.userInteractionEnabled = YES;
     _link.textColor = [UIColor blueColor];
@@ -390,75 +326,10 @@
     NSString *link = _detailItem.link;
     NSArray *objectsToShare = @[link];
     
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:
                                             objectsToShare applicationActivities:nil];
     
-    [self presentViewController:controller animated:YES completion:nil];
+    [self presentViewController:activityVC animated:YES completion:nil];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//- (void)createMovieView {
-////    NSString *path = @"https://www.youtube.com/watch?v=bY73vFGhSVk";
-//    NSString *path = [NSString stringWithFormat:@"%@", _detailItem.relatedUrls[4][@"url"]];
-//    NSURL *movieURL = [NSURL fileURLWithPath:path];
-//    _moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:movieURL];
-//    
-//    _movieView = [[UIView alloc] init];
-//    _movieView.translatesAutoresizingMaskIntoConstraints = NO;
-//    _movieView.backgroundColor = [UIColor orangeColor];
-//    _movieView.bounds = CGRectMake(0, 85, [[UIScreen mainScreen] bounds].size.width, 200);
-//    [_moviePlayerController.view setFrame:_movieView.bounds];
-//    [_movieView addSubview:_moviePlayerController.view];
-//    _moviePlayerController.controlStyle = MPMovieControlStyleNone;
-//    [_moviePlayerController prepareToPlay];
-//
-//    [self.view addSubview:_movieView];
-//
-//    NSLayoutConstraint *headlineRightSide = [NSLayoutConstraint constraintWithItem:_movieView
-//                                                                         attribute:NSLayoutAttributeRight
-//                                                                         relatedBy:NSLayoutRelationEqual
-//                                                                            toItem:self.view
-//                                                                         attribute:NSLayoutAttributeRight
-//                                                                        multiplier:1
-//                                                                          constant:0];
-//    
-//    NSLayoutConstraint *headlineLeftSide = [NSLayoutConstraint constraintWithItem:_movieView
-//                                                                        attribute:NSLayoutAttributeLeft
-//                                                                        relatedBy:NSLayoutRelationEqual
-//                                                                           toItem:self.view
-//                                                                        attribute:NSLayoutAttributeLeft
-//                                                                       multiplier:1
-//                                                                         constant:0];
-//    
-//    NSLayoutConstraint *headlineTopSide = [NSLayoutConstraint constraintWithItem:_movieView
-//                                                                       attribute:NSLayoutAttributeTop
-//                                                                       relatedBy:NSLayoutRelationEqual
-//                                                                          toItem:self.view
-//                                                                       attribute:NSLayoutAttributeTop
-//                                                                      multiplier:1
-//                                                                        constant:85];
-//    
-//    [self.view addConstraints:@[headlineRightSide, headlineLeftSide, headlineTopSide]];
-//    
-
-//}
-
 
 @end

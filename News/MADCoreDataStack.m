@@ -97,7 +97,6 @@
     for (NSDictionary *article in articles) {
         MADArticle *newArticle = (MADArticle *)[NSEntityDescription insertNewObjectForEntityForName:
                                                 @"MADArticle" inManagedObjectContext:context];
-        
         newArticle.title = article[@"title"];
         newArticle.link = article[@"link"];
         newArticle.summaryShort = article[@"shortdesc"];
