@@ -89,6 +89,7 @@
     return _managedObjectContext;
 }
 
+
 #pragma mark - Core Data Saving support
 
 - (void)saveArticles:(NSArray *)articles category:(NSString *)category {
@@ -102,37 +103,25 @@
         newArticle.summaryShort = article[@"shortdesc"];
         newArticle.imageURL = article[@"imgsrc"];
         newArticle.category = category;
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
-        }
+    }
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
     }
 }
 
 #pragma mark - Private
 
 - (NSArray *)uniquenessCheck:(NSArray *)articles {
-    NSMutableArray *uniqueArticles = [[NSMutableArray alloc] init];
-    NSArray *respone = [self fetchingDistinctValueByPredicate:nil];
+    NSArray *titles = [articles valueForKeyPath:@"title"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title IN %@", titles];
+    NSArray *response = [[self fetchingDistinctValueByPredicate:predicate] valueForKeyPath:@"title"];
+    NSPredicate *filterPredicate = [NSPredicate predicateWithBlock:
+                                    ^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
+                                        return ![response containsObject:evaluatedObject[@"title"]];
+                                    }];
     
-    if (respone.count == 0) {
-        [uniqueArticles addObjectsFromArray:articles];
-    } else {
-        NSMutableSet *temp = [NSMutableSet set];
-        
-        for (MADArticle *article in respone) {
-            [temp addObject:article.title];
-        }
-
-        for (NSInteger i = 0; i < articles.count; i++) {
-            if(![temp containsObject:articles[i][@"title"]]) {
-                [uniqueArticles addObject:articles[i]];
-            }
-        }
-    }
-    
-    return uniqueArticles;
+    return [articles filteredArrayUsingPredicate:filterPredicate];
 }
 
 - (NSArray *)fetchingDistinctValueByPredicate:(NSPredicate *)predicate {

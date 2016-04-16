@@ -54,48 +54,26 @@
     UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sharePressed:)];
     
     self.navigationItem.rightBarButtonItem = shareButton;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skySports"]];
-    self.navigationItem.titleView.backgroundColor = [UIColor redColor];
 }
 
-- (void)createScrollView {
-    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self.view addSubview:_scrollView];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeLeading
-                                                         multiplier:1
-                                                           constant:0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                          attribute:NSLayoutAttributeTrailing
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeTrailing
-                                                         multiplier:1
-                                                           constant:0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1
-                                                           constant:0]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:_scrollView
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1
-                                                           constant:0]];
+- (void)configureView {
+    if (_link) {
+        _headline.text = _detailItem.title;
+        _image.image = [UIImage imageWithData:_detailItem.image];
+        _summaryShort.text = _detailItem.summaryShort;
+        
+        NSURL *URL = [NSURL URLWithString:_detailItem.link];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:
+                                          [NSString stringWithFormat:@"Look \"%@\" at the official website.", _detailItem.title]];
+        [str addAttribute:NSLinkAttributeName value:URL range:NSMakeRange(0, str.length)];
+        [_link setAttributedText:str];
+        self.navigationItem.title = [_detailItem.category uppercaseString];
+        [self.contentView layoutIfNeeded];
+        _contentViewHeightConstraint.constant = CGRectGetMaxY(_link.frame);
+    }
 }
+
+#pragma mark - Create Views
 
 - (void)createContentView {
     UIView *view = [[UIView alloc] init];
@@ -152,21 +130,46 @@
     
     [_scrollView addConstraint:heightConstraint];
     self.contentViewHeightConstraint = heightConstraint;
-    self.contentViewHeightConstraint.constant = 1000;
+//        self.contentViewHeightConstraint.constant = 1000;
 }
 
-- (void)configureView {
-    if (_link) {
-        _headline.text = _detailItem.title;
-        _image.image = [UIImage imageWithData:_detailItem.image];
-        _summaryShort.text = _detailItem.summaryShort;
+- (void)createScrollView {
+    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     
-        NSURL *URL = [NSURL URLWithString:_detailItem.link];
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:
-                                          [NSString stringWithFormat:@"Look \"%@\" at the official website.", _detailItem.title]];
-        [str addAttribute:NSLinkAttributeName value:URL range:NSMakeRange(0, str.length)];
-        [_link setAttributedText:str];
-    }
+    [self.view addSubview:_scrollView];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_scrollView
+                                                          attribute:NSLayoutAttributeLeading
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeTrailing
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_scrollView
+                                                          attribute:NSLayoutAttributeTrailing
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_scrollView
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_scrollView
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:0]];
 }
 
 - (void)createdHeadlineLabel {
@@ -313,6 +316,8 @@
     
     [_contentView addConstraints:@[linkRightSide, linkLeftSide, linkTop]];
 }
+
+#pragma mark - Button Pressed
 
 - (IBAction)linkPressed:(UIButton *)sender {
     NSURL *url = [NSURL URLWithString:_detailItem.link];

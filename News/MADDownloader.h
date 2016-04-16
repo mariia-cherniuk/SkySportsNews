@@ -11,7 +11,7 @@
 
 @interface MADDownloader : NSObject
 
-+ (void)loadData;
++ (void)loadDataWithComplitionBlock:(void (^)(void))complitionBlock;
 + (void)loadImageWithURL:(NSString *)url complitionBlock:(void (^)(NSData *image))complitionBlock;
 
 @end

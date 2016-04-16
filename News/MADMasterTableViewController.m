@@ -26,12 +26,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [MADDownloader loadData];
+    [MADDownloader loadDataWithComplitionBlock:^{
+    }];
     [self configureNavigationItem];
-
+    [self configureRefreshControl];
+  
     self.view.backgroundColor = [UIColor whiteColor];
     _detailVC = [[MADDetailViewController alloc] init];
     _detailNC = [[UINavigationController alloc] initWithRootViewController:_detailVC];
+}
+
+- (void)configureRefreshControl {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor whiteColor];
+    self.refreshControl.tintColor = [UIColor redColor];
+    [self.refreshControl addTarget:self action:@selector(refreshControlRequest)
+                  forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)configureNavigationItem {
@@ -48,6 +58,12 @@
     button.adjustsImageWhenHighlighted = NO;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"skySports"]];
+}
+
+- (void)refreshControlRequest {
+    [MADDownloader loadDataWithComplitionBlock:^{
+        [self.refreshControl endRefreshing];
+    }];
 }
 
 - (IBAction)humburgerButtonPressed:(UIButton *)sender {
@@ -229,6 +245,11 @@
     
     if (![value isEqualToString:@"News"]) {
         predicate = [NSPredicate predicateWithFormat:@"category = %@", [value lowercaseString]];
+        self.navigationItem.title = [value uppercaseString];
+        self.navigationItem.titleView = nil;
+    } else {
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:
+                                         [UIImage imageNamed:@"skySports"]];
     }
     self.fetchedResultsController.fetchRequest.predicate = predicate;
     
@@ -236,6 +257,7 @@
     if (![self.fetchedResultsController performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+    
 //    at the top of the list
     [self.tableView setContentOffset:CGPointMake(0.f, -self.tableView.contentInset.top) animated:YES];
     [self.tableView reloadData];

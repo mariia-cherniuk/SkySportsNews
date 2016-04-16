@@ -12,7 +12,7 @@
 
 @implementation MADDownloader
 
-+ (void)loadData {
++ (void)loadDataWithComplitionBlock:(void (^)(void))complitionBlock {
     NSURL *url = [[NSURL alloc] initWithString:
                   @"https://skysportsapi.herokuapp.com/sky/getnews/football/v1.0/"];
     NSURL *url2 = [[NSURL alloc] initWithString:
@@ -35,6 +35,12 @@
                                                            NSArray *articles = [[MADCoreDataStack sharedCoreDataStack] uniquenessCheck:[self parseData:data]];
                                                            
                                                            [[MADCoreDataStack sharedCoreDataStack] saveArticles:articles category:categoryName];
+                                                           
+                                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                                               if (complitionBlock) {
+                                                                   complitionBlock();
+                                                               }
+                                                           });
                                                        } else if (error) {
                                                            NSLog(@"%@", error);
                                                        }
