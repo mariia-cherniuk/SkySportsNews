@@ -42,7 +42,10 @@
                                                                }
                                                            });
                                                        } else if (error) {
-                                                           NSLog(@"%@", error);
+                                                           if (complitionBlock) {
+                                                               complitionBlock();
+                                                           }
+//                                                           NSLog(@"%@", error);
                                                        }
                                                    }];
         
@@ -82,7 +85,10 @@
                                                            }
                                                        });
                                                    } else if (error) {
-                                                        NSLog(@"%@", error);
+                                                       if (complitionBlock) {
+                                                           complitionBlock(nil);
+                                                       }
+//                                                        NSLog(@"%@", error);
                                                    }
                                                }];
     

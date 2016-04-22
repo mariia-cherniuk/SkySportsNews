@@ -10,6 +10,6 @@
 
 @protocol MADFilterTableViewControllerDelegate <NSObject>
 
-- (void)configureFetchedResultsControllerByValue:(NSString *)value;
+- (void)configureTabelViewWithOption:(NSString *)option;
 
 @end

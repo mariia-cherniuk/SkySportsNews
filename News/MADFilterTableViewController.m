@@ -61,7 +61,7 @@
 }
  
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [_filterDelegat configureFetchedResultsControllerByValue:_categories[indexPath.row]];
+    [_filterDelegat configureTabelViewWithOption:_categories[indexPath.row]];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

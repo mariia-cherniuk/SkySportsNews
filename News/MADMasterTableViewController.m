@@ -40,7 +40,8 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor whiteColor];
     self.refreshControl.tintColor = [UIColor redColor];
-    [self.refreshControl addTarget:self action:@selector(refreshControlRequest)
+    [self.refreshControl addTarget:self
+                            action:@selector(refreshControlRequest)
                   forControlEvents:UIControlEventValueChanged];
 }
 
@@ -184,7 +185,7 @@
             break;
             
         case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:[NSArray
+            [self.tableView deleteRowsAtIndexPaths:[NSArray
                                                arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [tableView insertRowsAtIndexPaths:[NSArray
                                                arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -240,12 +241,13 @@
 
 #pragma mark - MADFilterTableViewControllerDelegate
 
-- (void)configureFetchedResultsControllerByValue:(NSString *)value {
+- (void)configureTabelViewWithOption:(NSString *)option {
+//    configure fetchedResultsController
     NSPredicate *predicate = nil;
     
-    if (![value isEqualToString:@"News"]) {
-        predicate = [NSPredicate predicateWithFormat:@"category = %@", [value lowercaseString]];
-        self.navigationItem.title = [value uppercaseString];
+    if (![option isEqualToString:@"News"]) {
+        predicate = [NSPredicate predicateWithFormat:@"category = %@", [option lowercaseString]];
+        self.navigationItem.title = [option uppercaseString];
         self.navigationItem.titleView = nil;
     } else {
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:
@@ -259,8 +261,8 @@
     }
     
 //    at the top of the list
-    [self.tableView setContentOffset:CGPointMake(0.f, -self.tableView.contentInset.top) animated:YES];
     [self.tableView reloadData];
+    [self.tableView setContentOffset:CGPointMake(0.f, -([UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height)) animated:YES];
 }
 
 @end
