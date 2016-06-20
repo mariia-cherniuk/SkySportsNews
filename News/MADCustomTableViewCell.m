@@ -14,7 +14,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 
     if (self) {
-        [self createdImage];
+        [self createdImageView];
         [self createdHeadlineLabel];
         [self createdCategoryLabel];
     }
@@ -98,7 +98,7 @@
     [self.contentView addConstraints:@[categoryLeftSide, categoryRightSide, categoryBottom]];
 }
 
-- (void)createdImage {
+- (void)createdImageView {
     _articleCellImageView = [[UIImageView alloc] init];
     _articleCellImageView.translatesAutoresizingMaskIntoConstraints = NO;
     _articleCellImageView.clipsToBounds = YES;

@@ -24,12 +24,12 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                               initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                    target:self
-                                                                   action:@selector(closePressed)];
+                                                                   action:@selector(closePressed:)];
 }
 
 #pragma mark - Private
 
-- (void)closePressed {
+- (void)closePressed:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

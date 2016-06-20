@@ -37,6 +37,7 @@
     [self createdLink];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_scrollView setContentOffset:CGPointZero];
@@ -68,7 +69,7 @@
         [str addAttribute:NSLinkAttributeName value:URL range:NSMakeRange(0, str.length)];
         [_link setAttributedText:str];
         self.navigationItem.title = [_detailItem.category uppercaseString];
-        [self.contentView layoutIfNeeded];
+        [_contentView layoutIfNeeded];
         _contentViewHeightConstraint.constant = CGRectGetMaxY(_link.frame);
     }
 }
@@ -319,7 +320,7 @@
 
 #pragma mark - Button Pressed
 
-- (IBAction)linkPressed:(UIButton *)sender {
+- (IBAction)linkPressed:(UILabel *)sender {
     NSURL *url = [NSURL URLWithString:_detailItem.link];
 
     if ([[UIApplication sharedApplication] canOpenURL:url]) {

@@ -30,7 +30,6 @@
     
     blurView.translatesAutoresizingMaskIntoConstraints = NO;
     toViewController.view.alpha = 0.f;
-    toViewController.view.backgroundColor = [UIColor clearColor];
     toViewController.view.frame = finalFrameForVC;
 
     [containerView addSubview:blurView];

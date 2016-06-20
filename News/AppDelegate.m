@@ -22,9 +22,8 @@
     MADMasterTableViewController *masterVC = [[MADMasterTableViewController alloc] init];
     MADDetailViewController *detailVC = [[MADDetailViewController alloc] init];
     UINavigationController *masterNC = [[UINavigationController alloc] initWithRootViewController:masterVC];
-    UINavigationController *detailNC = [[UINavigationController alloc] initWithRootViewController:detailVC];
-    
-    splitVC.viewControllers = @[masterNC, detailNC];
+
+    splitVC.viewControllers = @[masterNC];
     masterVC.detailVC = detailVC;
     splitVC.view.backgroundColor = [UIColor whiteColor];
     splitVC.delegate = self;
@@ -40,23 +39,12 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     NSManagedObjectContext *context = [[MADCoreDataStack sharedCoreDataStack] managedObjectContext];
-    
     NSError *error = nil;
+    
     if (![context save:&error]) {
         NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
     }
 }
-
-//- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-//        return UIInterfaceOrientationMaskLandscape;
-//    } else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone
-//               && MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) == 736) {
-//        return UIInterfaceOrientationMaskAllButUpsideDown;
-//    } else {
-//        return UIInterfaceOrientationMaskPortrait;
-//    }
-//}
 
 #pragma mark - Split view
 

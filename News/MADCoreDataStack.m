@@ -7,7 +7,6 @@
 //
 
 #import "MADCoreDataStack.h"
-#import <CoreData/CoreData.h>
 #import "MADDownloader.h"
 #import "MADArticle.h"
 
@@ -29,7 +28,8 @@
 }
 
 - (NSURL *)applicationDocumentsDirectory {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                   inDomains:NSUserDomainMask] lastObject];
 }
 
 #pragma mark - Core Data stack
@@ -53,13 +53,15 @@
     
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory]
-                       URLByAppendingPathComponent:@"News.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"News.sqlite"];
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
     
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil
-                                                             URL:storeURL options:nil error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:nil
+                                                           error:&error]) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         
         dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
@@ -78,13 +80,12 @@
     if (_managedObjectContext != nil) {
         return _managedObjectContext;
     }
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    
-    if (!coordinator) {
+    if (!self.persistentStoreCoordinator) {
         return nil;
     }
+    
     _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    [_managedObjectContext setPersistentStoreCoordinator:self.persistentStoreCoordinator];
     
     return _managedObjectContext;
 }
@@ -130,10 +131,16 @@
                                               inManagedObjectContext:self.managedObjectContext];
     [request setEntity:entity];
     request.predicate = predicate;
-    request.sortDescriptors = [NSArray array];
+    request.sortDescriptors = [[NSArray alloc] init];
     
     NSError *error = nil;
-    NSArray *array = [_managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if (error) {
+        NSLog(@"%@", [error description]);
+    }
+    
+    NSLog(@"%@", array);
     
     return array;
 }
