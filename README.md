@@ -1,4 +1,4 @@
-SkySportsNews - iPhone weather app which uses http://www.skysports.com/ API
+SkySportsNews - iPhone news app which uses http://www.skysports.com/ API
 ============================================================================
 
 # Features:
